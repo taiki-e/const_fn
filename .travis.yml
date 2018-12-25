@@ -1,0 +1,28 @@
+language: rust
+sudo: false
+
+matrix:
+  include:
+    - rust: 1.30.0
+    - rust: stable
+    - rust: beta
+    - rust: nightly
+      script:
+        - cargo test
+        - cargo doc --no-deps
+        - cd "${TRAVIS_BUILD_DIR}/test_suite"
+        - cargo test
+        - cargo test --features build_script
+        - cargo test --all-features
+
+before_script:
+  - set -o errexit
+
+script:
+  - cargo test
+  - cd "${TRAVIS_BUILD_DIR}/test_suite"
+  - cargo test
+  - cargo test --features build_script
+
+notifications:
+  email: false
