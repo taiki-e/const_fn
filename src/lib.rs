@@ -65,7 +65,7 @@ use syn::{parse_quote, ItemFn};
 /// An attribute for easy generation of a const function with conditional compilations.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
-    assert!(!args.is_empty(), "`#[const_fn]` requires an argument.");
+    assert!(!args.is_empty(), "`#[const_fn]` requires an argument");
 
     let mut function: ItemFn =
         syn::parse(function).expect("`#[const_fn]` can only be used on functions");
@@ -83,5 +83,5 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
 
     let mut function = function.into_token_stream();
     function.extend(const_function.into_token_stream());
-    function.into()
+    TokenStream::from(function)
 }
