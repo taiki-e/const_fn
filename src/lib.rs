@@ -60,14 +60,16 @@ extern crate syn;
 use proc_macro::TokenStream;
 use proc_macro2::TokenStream as TokenStream2;
 use quote::{quote, ToTokens};
-use syn::{parse_macro_input, parse_quote, ItemFn};
+use syn::{parse_quote, ItemFn};
 
 /// An attribute for easy generation of a const function with conditional compilations.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
     assert!(!args.is_empty(), "`#[const_fn]` requires an argument.");
 
-    let mut function = parse_macro_input!(function as ItemFn);
+    let mut function: ItemFn =
+        syn::parse(function).expect("`#[const_fn]` can only be used on functions");
+
     let mut const_function = function.clone();
 
     match &function.constness {
