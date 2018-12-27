@@ -62,19 +62,28 @@ use proc_macro2::TokenStream as TokenStream2;
 use quote::{quote, ToTokens};
 use syn::{parse_quote, ItemFn};
 
+#[inline(never)]
+fn compile_err(msg: &str) -> TokenStream {
+    quote!(compile_error!(#msg);).into()
+}
+
 /// An attribute for easy generation of a const function with conditional compilations.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
-    assert!(!args.is_empty(), "`#[const_fn]` requires an argument");
+    if args.is_empty() {
+        return compile_err("`const_fn` requires an argument");
+    }
 
-    let mut function: ItemFn =
-        syn::parse(function).expect("`#[const_fn]` can only be used on functions");
+    let mut function: ItemFn = match syn::parse(function) {
+        Err(_) => return compile_err("`const_fn` may only be used on functions"),
+        Ok(f) => f,
+    };
 
     let mut const_function = function.clone();
 
     match &function.constness {
-        None => const_function.constness = Some(Default::default()),
         Some(_) => function.constness = None,
+        None => const_function.constness = Some(Default::default()),
     }
 
     let args = TokenStream2::from(args);
