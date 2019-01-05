@@ -1,7 +1,10 @@
 language: rust
 sudo: false
+cache: cargo
 
 matrix:
+  fast_finish: true
+
   include:
     - rust: 1.30.0
     - rust: stable
@@ -12,7 +15,14 @@ matrix:
         - cargo doc --no-deps
         - cd "${TRAVIS_BUILD_DIR}/test_suite"
         - cargo test
-        - cargo test --features build_script
+        - cargo test --all-features
+
+    - rust: nightly
+      name: cargo test (minimal versions)
+      script:
+        - cargo update -Zminimal-versions
+        - cargo test
+        - cd "${TRAVIS_BUILD_DIR}/test_suite"
         - cargo test --all-features
 
 before_script:
