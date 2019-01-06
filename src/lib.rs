@@ -51,7 +51,7 @@
 
 #![crate_type = "proc-macro"]
 #![recursion_limit = "256"]
-#![doc(html_root_url = "https://docs.rs/const_fn/0.1.2")]
+#![doc(html_root_url = "https://docs.rs/const_fn/0.1.3")]
 
 extern crate proc_macro;
 extern crate proc_macro2;

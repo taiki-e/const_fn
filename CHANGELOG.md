@@ -1,5 +1,9 @@
 # Unreleased
 
+# 0.1.3 - 2019-01-06
+
+* Fix dependencies
+
 # 0.1.2 - 2018-12-27
 
 * Improve error messages
