@@ -12,14 +12,13 @@
 //! It can be written as follows:
 //!
 //! ```rust
-//! #![cfg_attr(feature = "const", feature(const_fn, const_let, const_vec_new))]
+//! #![cfg_attr(feature = "const", feature(const_fn, const_vec_new))]
 //! # #[macro_use]
 //! # extern crate const_fn;
 //!
 //! #[const_fn(feature = "const")]
 //! pub const fn empty_vec<T>() -> Vec<T> {
-//!     let vec = Vec::new();
-//!     vec
+//!     Vec::new()
 //! }
 //! # fn main() { let _ = empty_vec::<u8>(); }
 //! ```
@@ -27,21 +26,23 @@
 //! Code like this will be generated:
 //!
 //! ```rust
-//! #![cfg_attr(feature = "const", feature(const_fn, const_let, const_vec_new))]
+//! #![cfg_attr(feature = "const", feature(const_fn, const_vec_new))]
 //!
 //! #[cfg(feature = "const")]
 //! pub const fn empty_vec<T>() -> Vec<T> {
-//!     let vec = Vec::new();
-//!     vec
+//!     Vec::new()
 //! }
 //!
 //! #[cfg(not(feature = "const"))]
 //! pub fn empty_vec<T>() -> Vec<T> {
-//!     let vec = Vec::new();
-//!     vec
+//!     Vec::new()
 //! }
 //! # fn main() { let _ = empty_vec::<u8>(); }
 //! ```
+//!
+//! See [test_suite] for more examples.
+//!
+//! [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
 //!
 //! ## Rust Version
 //!
