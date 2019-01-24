@@ -9,5 +9,5 @@ const_fn = { path = ".." }
 
 [features]
 min_const_fn = []
-const_unstable = ["min_const_fn"]
-build_script = []
+const_let = ["min_const_fn"]
+const_unstable = ["const_let"]

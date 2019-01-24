@@ -5,10 +5,6 @@ use std::str;
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
-    if !cfg!(feature = "build_script") {
-        return;
-    }
-
     let (minor, nightly) = match rustc_minor_version() {
         Some(x) => x,
         None => return,
@@ -16,6 +12,9 @@ fn main() {
 
     if minor >= 31 || nightly {
         println!("cargo:rustc-cfg=min_const_fn");
+    }
+    if minor >= 33 || nightly {
+        println!("cargo:rustc-cfg=const_let");
     }
     if nightly {
         println!("cargo:rustc-cfg=const_unstable");
