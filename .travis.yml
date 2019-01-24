@@ -8,20 +8,34 @@ matrix:
   include:
     - rust: 1.30.0
     - rust: stable
+      script:
+        - cargo test
+        - cd "${TRAVIS_BUILD_DIR}/test_suite"
+        - cargo test --features min_const_fn
     - rust: beta
+      script:
+        - cargo test
+        - cd "${TRAVIS_BUILD_DIR}/test_suite"
+        - cargo test --features const_let
     - rust: nightly
       script:
-        - cargo test --all
-        - cd "${TRAVIS_BUILD_DIR}/test_suite"
-        - cargo test --all-features
+        - cargo test --all --all-features
 
     - rust: nightly
       name: cargo test (minimal versions)
       script:
         - cargo update -Zminimal-versions
-        - cargo test --all
-        - cd "${TRAVIS_BUILD_DIR}/test_suite"
-        - cargo test --all-features
+        - cargo test --all --all-features
+
+    - rust: nightly
+      name: cargo clippy
+      script:
+        - if rustup component add clippy-preview;
+          then
+            cargo clippy --all --all-features -- -Dwarnings;
+          else
+            echo 'Skipping clippy';
+          fi
 
     - rust: nightly
       name: cargo doc
@@ -33,8 +47,6 @@ before_script:
 
 script:
   - cargo test --all
-  - cd "${TRAVIS_BUILD_DIR}/test_suite"
-  - cargo test --features build_script
 
 notifications:
   email:
