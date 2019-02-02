@@ -1,6 +1,6 @@
 # \#\[const\_fn\]
 
-[![Build Status](http://img.shields.io/travis/taiki-e/const_fn.svg)](https://travis-ci.org/taiki-e/const_fn)
+[![Build Status](https://travis-ci.org/taiki-e/const_fn.svg?branch=master)](https://travis-ci.org/taiki-e/const_fn)
 [![version](https://img.shields.io/crates/v/const_fn.svg)](https://crates.io/crates/const_fn/)
 [![documentation](https://docs.rs/const_fn/badge.svg)](https://docs.rs/const_fn/)
 [![license](https://img.shields.io/crates/l/const_fn.svg)](https://crates.io/crates/const_fn/)
