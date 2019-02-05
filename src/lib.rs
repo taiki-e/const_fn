@@ -48,6 +48,7 @@
 #![crate_type = "proc-macro"]
 #![recursion_limit = "256"]
 #![doc(html_root_url = "https://docs.rs/const_fn/0.1.3")]
+#![deny(bare_trait_objects, elided_lifetimes_in_paths)]
 
 extern crate proc_macro;
 extern crate proc_macro2;
