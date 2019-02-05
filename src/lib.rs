@@ -44,10 +44,6 @@
 //!
 //! [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
 //!
-//! ## Rust Version
-//!
-//! The current minimum required Rust version is 1.30.
-//!
 
 #![crate_type = "proc-macro"]
 #![recursion_limit = "256"]

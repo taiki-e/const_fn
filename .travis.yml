@@ -6,7 +6,10 @@ matrix:
   fast_finish: true
 
   include:
+    # This is the minimum Rust version supported by const_fn.
+    # When updating this, the reminder to update the minimum required version in README.md.
     - rust: 1.30.0
+
     - rust: stable
       script:
         - cargo test
