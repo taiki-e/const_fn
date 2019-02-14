@@ -54,11 +54,13 @@ extern crate proc_macro;
 extern crate proc_macro2;
 extern crate quote;
 extern crate syn;
+extern crate syn_mid;
 
 use proc_macro::TokenStream;
 use proc_macro2::TokenStream as TokenStream2;
 use quote::{quote, ToTokens};
-use syn::{parse_quote, ItemFn};
+use syn::parse_quote;
+use syn_mid::ItemFn;
 
 /// An attribute for easy generation of a const function with conditional compilations.
 #[proc_macro_attribute]
@@ -79,9 +81,10 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
 
     let mut const_function = function.clone();
 
-    match &function.constness {
-        Some(_) => function.constness = None,
-        None => const_function.constness = Some(Default::default()),
+    if function.constness.is_some() {
+        function.constness = None;
+    } else {
+        const_function.constness = Some(Default::default());
     }
 
     let args = TokenStream2::from(args);
