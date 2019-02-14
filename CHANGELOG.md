@@ -1,5 +1,9 @@
 # Unreleased
 
+# 0.1.4 - 2019-02-15
+
+* Reduce compilation time
+
 # 0.1.3 - 2019-01-06
 
 * Fix dependencies
