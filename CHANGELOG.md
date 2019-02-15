@@ -1,5 +1,9 @@
 # Unreleased
 
+# 0.1.6 - 2019-02-15
+
+* Reduce compilation time
+
 # 0.1.5 - 2019-02-15
 
 * Revert 0.1.4
