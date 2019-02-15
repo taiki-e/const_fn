@@ -22,6 +22,7 @@ travis-ci = { repository = "taiki-e/const_fn" }
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "^0.4.13"
+proc-macro2 = "^0.4.19"
 quote = "^0.6.8"
-syn = { version = "^0.15.9", default-features = false, features = ["proc-macro", "parsing", "printing", "clone-impls", "full"] }
+syn = "^0.15.22"
+syn-mid = "^0.2.0"

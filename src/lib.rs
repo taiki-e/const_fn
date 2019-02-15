@@ -54,11 +54,13 @@ extern crate proc_macro;
 extern crate proc_macro2;
 extern crate quote;
 extern crate syn;
+extern crate syn_mid;
 
 use proc_macro::TokenStream;
 use proc_macro2::TokenStream as TokenStream2;
 use quote::{quote, ToTokens};
-use syn::{parse_quote, ItemFn};
+use syn::parse_quote;
+use syn_mid::ItemFn;
 
 /// An attribute for easy generation of a const function with conditional compilations.
 #[proc_macro_attribute]
