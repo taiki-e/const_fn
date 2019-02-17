@@ -1,5 +1,7 @@
 # Unreleased
 
+* Update syn-mid version to 0.3
+
 # 0.1.6 - 2019-02-15
 
 * Reduce compilation time
