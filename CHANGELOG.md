@@ -1,5 +1,7 @@
 # Unreleased
 
+# 0.1.7 - 2019-02-18
+
 * Update syn-mid version to 0.3
 
 # 0.1.6 - 2019-02-15
