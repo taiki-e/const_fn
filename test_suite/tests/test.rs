@@ -1,7 +1,4 @@
-#![cfg_attr(
-    any(feature = "const_unstable", const_unstable),
-    feature(const_fn, const_vec_new)
-)]
+#![cfg_attr(any(feature = "const_unstable", const_unstable), feature(const_fn, const_vec_new))]
 #![deny(warnings)]
 #![allow(unused_imports)]
 #![allow(dead_code)]
