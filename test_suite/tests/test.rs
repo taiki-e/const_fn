@@ -1,13 +1,13 @@
 #![cfg_attr(any(feature = "const_unstable", const_unstable), feature(const_fn, const_vec_new))]
-#![deny(warnings)]
-#![allow(unused_imports)]
+#![warn(unsafe_code)]
+#![warn(rust_2018_idioms)]
+#![warn(clippy::all)]
 #![allow(dead_code)]
-#![cfg(test)]
-
-#[macro_use]
-extern crate const_fn;
+#![allow(clippy::let_and_return)]
 
 mod features {
+    use const_fn::const_fn;
+
     #[test]
     fn test_variables() {
         assert!(const_min("variables") == "variables");
@@ -70,6 +70,8 @@ mod features {
 }
 
 mod build_script {
+    use const_fn::const_fn;
+
     #[test]
     fn test_variables() {
         assert!(const_min("variables") == "variables");

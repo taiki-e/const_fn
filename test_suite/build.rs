@@ -1,6 +1,4 @@
-use std::env;
-use std::process::Command;
-use std::str;
+use std::{env, process::Command};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
@@ -24,7 +22,7 @@ fn main() {
 fn rustc_minor_version() -> Option<(u32, bool)> {
     let rustc = env::var_os("RUSTC")?;
     let output = Command::new(rustc).arg("--version").output().ok()?;
-    let version = str::from_utf8(&output.stdout).ok()?;
+    let version = String::from_utf8(output.stdout).ok()?;
 
     let nightly = version.contains("nightly");
     let mut pieces = version.split('.');
