@@ -3,6 +3,7 @@ name = "const_fn"
 # NB: When modifying, also modify html_root_url in lib.rs
 version = "0.1.7"
 authors = ["Taiki Endo <te316e89@gmail.com>"]
+edition = "2018"
 license = "Apache-2.0/MIT"
 description = "An attribute for easy generation of a const function with conditional compilations."
 repository = "https://github.com/taiki-e/const_fn"
@@ -22,7 +23,7 @@ travis-ci = { repository = "taiki-e/const_fn" }
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "^0.4.19"
-quote = "^0.6.8"
-syn = "^0.15.22"
-syn-mid = { version = "^0.3.0", features = ["clone-impls"] }
+proc-macro2 = "0.4.19"
+quote = "0.6.8"
+syn = "0.15.29"
+syn-mid = { version = "0.3.0", features = ["clone-impls"] }

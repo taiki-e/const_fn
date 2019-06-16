@@ -17,12 +17,7 @@ Add this to your `Cargo.toml`:
 const_fn = "0.1"
 ```
 
-and this to your crate root:
-
-```rust
-#[macro_use]
-extern crate const_fn;
-```
+The current const_fn requires Rust 1.31 or later.
 
 ## Examples
 
@@ -37,6 +32,7 @@ It can be written as follows:
 
 ```rust
 #![cfg_attr(feature = "const", feature(const_fn, const_vec_new))]
+use const_fn::const_fn;
 
 #[const_fn(feature = "const")]
 pub const fn empty_vec<T>() -> Vec<T> {
@@ -63,10 +59,6 @@ pub fn empty_vec<T>() -> Vec<T> {
 See [test_suite] for more examples.
 
 [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
-
-## Rust Version
-
-The current minimum required Rust version is 1.30.
 
 ## License
 
