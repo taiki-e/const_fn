@@ -2,6 +2,12 @@ language: rust
 sudo: false
 cache: cargo
 
+branches:
+  only:
+    - master
+    - staging
+    - trying
+
 matrix:
   fast_finish: true
 

@@ -10,7 +10,7 @@ documentation = "https://docs.rs/const_fn/"
 readme = "README.md"
 keywords = ["macros", "attribute", "const", "static"]
 categories = ["rust-patterns"]
-exclude = ["/.travis.yml"]
+exclude = ["/.travis.yml", "/bors.toml"]
 
 [workspace]
 members = ["test_suite"]
