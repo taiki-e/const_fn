@@ -4,7 +4,7 @@
 [![version](https://img.shields.io/crates/v/const_fn.svg)](https://crates.io/crates/const_fn/)
 [![documentation](https://docs.rs/const_fn/badge.svg)](https://docs.rs/const_fn/)
 [![license](https://img.shields.io/crates/l/const_fn.svg)](https://crates.io/crates/const_fn/)
-[![Rustc Version](https://img.shields.io/badge/rustc-1.30+-lightgray.svg)](https://blog.rust-lang.org/2018/10/25/Rust-1.30.0.html)
+[![Rustc Version](https://img.shields.io/badge/rustc-1.31+-lightgray.svg)](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html)
 
 An attribute for easy generation of a const function with conditional compilations.
 
@@ -14,7 +14,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-const_fn = "0.1"
+const_fn = "0.2"
 ```
 
 The current const_fn requires Rust 1.31 or later.
