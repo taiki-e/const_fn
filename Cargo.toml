@@ -11,13 +11,9 @@ documentation = "https://docs.rs/const_fn/"
 readme = "README.md"
 keywords = ["macros", "attribute", "const", "static"]
 categories = ["rust-patterns"]
-exclude = ["/.travis.yml", "/bors.toml"]
 
 [workspace]
 members = ["test_suite"]
-
-[badges]
-travis-ci = { repository = "taiki-e/const_fn" }
 
 [lib]
 proc-macro = true

@@ -1,9 +1,7 @@
 #![cfg_attr(any(feature = "const_unstable", const_unstable), feature(const_fn, const_vec_new))]
 #![warn(unsafe_code)]
 #![warn(rust_2018_idioms)]
-#![warn(clippy::all)]
 #![allow(dead_code)]
-#![allow(clippy::let_and_return)]
 
 mod features {
     use const_fn::const_fn;
