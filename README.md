@@ -1,10 +1,21 @@
 # \#\[const\_fn\]
 
-[![Build Status](https://travis-ci.org/taiki-e/const_fn.svg?branch=master)](https://travis-ci.org/taiki-e/const_fn)
-[![version](https://img.shields.io/crates/v/const_fn.svg)](https://crates.io/crates/const_fn/)
-[![documentation](https://docs.rs/const_fn/badge.svg)](https://docs.rs/const_fn/)
-[![license](https://img.shields.io/crates/l/const_fn.svg)](https://crates.io/crates/const_fn/)
-[![Rustc Version](https://img.shields.io/badge/rustc-1.31+-lightgray.svg)](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html)
+[![Build Status][azure-badge]][azure-url]
+[![Crates.io][crates-version-badge]][crates-url]
+[![Docs.rs][docs-badge]][docs-url]
+[![License][crates-license-badge]][crates-url]
+[![Minimum supported Rust version][rustc-badge]][rustc-url]
+
+[azure-badge]: https://dev.azure.com/taiki-e/taiki-e/_apis/build/status/taiki-e.const_fn?branchName=master
+[azure-url]: https://dev.azure.com/taiki-e/taiki-e/_build/latest?definitionId=5&branchName=master
+[crates-version-badge]: https://img.shields.io/crates/v/const_fn.svg
+[crates-license-badge]: https://img.shields.io/crates/l/const_fn.svg
+[crates-badge]: https://img.shields.io/crates/v/const_fn.svg
+[crates-url]: https://crates.io/crates/const_fn/
+[docs-badge]: https://docs.rs/const_fn/badge.svg
+[docs-url]: https://docs.rs/const_fn/
+[rustc-badge]: https://img.shields.io/badge/rustc-1.31+-lightgray.svg
+[rustc-url]: https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html
 
 An attribute for easy generation of a const function with conditional compilations.
 
