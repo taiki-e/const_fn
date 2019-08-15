@@ -1,5 +1,9 @@
 # Unreleased
 
+* Updated `proc-macro2`, `syn`, and `quote` to 1.0.
+
+* Updated `syn-mid` to 0.4.
+
 # 0.2.0 - 2019-06-16
 
 * Transition to Rust 2018. With this change, the minimum required version will go up to Rust 1.31.
