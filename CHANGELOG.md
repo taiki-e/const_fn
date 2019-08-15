@@ -1,5 +1,7 @@
 # Unreleased
 
+# 0.2.1 - 2019-08-15
+
 * Updated `proc-macro2`, `syn`, and `quote` to 1.0.
 
 * Updated `syn-mid` to 0.4.
