@@ -36,34 +36,49 @@ When using like the following functions to control unstable features:
 
 ```toml
 [features]
-const = []
+const_unstable = []
 ```
 
 It can be written as follows:
 
 ```rust
-#![cfg_attr(feature = "const", feature(const_fn, const_vec_new))]
+#![cfg_attr(feature = "const_unstable", feature(const_fn))]
 use const_fn::const_fn;
 
-#[const_fn(feature = "const")]
-pub const fn empty_vec<T>() -> Vec<T> {
-    Vec::new()
+pub struct Foo<T> {
+    x:T,
+}
+
+impl<T: Iterator> Foo<T> {
+    /// Constructs a new `Foo`.
+    #[const_fn(feature = "const_unstable")]
+    pub const fn new(x: T) -> Self {
+        Self { x }
+    }
 }
 ```
 
 Code like this will be generated:
 
 ```rust
-#![cfg_attr(feature = "const", feature(const_fn, const_vec_new))]
+#![cfg_attr(feature = "const_unstable", feature(const_fn))]
 
-#[cfg(feature = "const")]
-pub const fn empty_vec<T>() -> Vec<T> {
-    Vec::new()
+pub struct Foo<T> {
+    x:T,
 }
 
-#[cfg(not(feature = "const"))]
-pub fn empty_vec<T>() -> Vec<T> {
-    Vec::new()
+impl<T: Iterator> Foo<T> {
+    /// Constructs a new `Foo`.
+    #[cfg(feature = "const_unstable")]
+    pub const fn new(x: T) -> Self {
+        Self { x }
+    }
+
+    /// Constructs a new `Foo`.
+    #[cfg(not(feature = "const_unstable"))]
+    pub fn new(x: T) -> Self {
+        Self { x }
+    }
 }
 ```
 
