@@ -6,10 +6,12 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 repository = "https://github.com/taiki-e/const_fn"
 documentation = "https://docs.rs/const_fn/"
-readme = "README.md"
 keywords = ["macros", "attribute", "const", "static"]
 categories = ["rust-patterns"]
-description = "An attribute for easy generation of a const function with conditional compilations."
+readme = "README.md"
+description = """
+An attribute for easy generation of a const function with conditional compilations.
+"""
 
 [workspace]
 members = ["test_suite"]
