@@ -7,8 +7,3 @@ publish = false
 
 [dependencies]
 const_fn = { path = ".." }
-
-[features]
-min_const_fn = []
-const_let = ["min_const_fn"]
-const_unstable = ["const_let"]
