@@ -1,13 +1,10 @@
 # \#\[const\_fn\]
 
-[![Build Status][azure-badge]][azure-url]
 [![Crates.io][crates-version-badge]][crates-url]
 [![Docs.rs][docs-badge]][docs-url]
 [![License][crates-license-badge]][crates-url]
 [![Minimum supported Rust version][rustc-badge]][rustc-url]
 
-[azure-badge]: https://dev.azure.com/taiki-e/taiki-e/_apis/build/status/taiki-e.const_fn?branchName=master
-[azure-url]: https://dev.azure.com/taiki-e/taiki-e/_build/latest?definitionId=5&branchName=master
 [crates-version-badge]: https://img.shields.io/crates/v/const_fn.svg
 [crates-license-badge]: https://img.shields.io/crates/l/const_fn.svg
 [crates-badge]: https://img.shields.io/crates/v/const_fn.svg
