@@ -1,13 +1,10 @@
 # \#\[const\_fn\]
 
-[![ci-badge]][ci-url]
 [![crates-badge]][crates-url]
 [![docs-badge]][docs-url]
 [![license-badge]][license]
 [![rustc-badge]][rustc-url]
 
-[ci-badge]: https://github.com/taiki-e/const_fn/workflows/ci/badge.svg
-[ci-url]: https://github.com/taiki-e/const_fn/actions?workflow=ci
 [crates-badge]: https://img.shields.io/crates/v/const_fn.svg
 [crates-url]: https://crates.io/crates/const_fn/
 [docs-badge]: https://docs.rs/const_fn/badge.svg
