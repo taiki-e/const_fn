@@ -16,7 +16,7 @@
 //! use const_fn::const_fn;
 //!
 //! pub struct Foo<T> {
-//!     x:T,
+//!     x: T,
 //! }
 //!
 //! impl<T: Iterator> Foo<T> {
@@ -35,7 +35,7 @@
 //! #![cfg_attr(feature = "const_unstable", feature(const_fn))]
 //!
 //! pub struct Foo<T> {
-//!     x:T,
+//!     x: T,
 //! }
 //!
 //! impl<T: Iterator> Foo<T> {
@@ -57,7 +57,6 @@
 //! See [test_suite] for more examples.
 //!
 //! [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
-//!
 
 #![recursion_limit = "256"]
 #![doc(html_root_url = "https://docs.rs/const_fn/0.2.1")]
