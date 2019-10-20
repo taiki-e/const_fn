@@ -1,5 +1,7 @@
 # Unreleased
 
+# 0.3.0 - 2019-10-20
+
 * `#[const_fn]` attribute may only be used on const functions.
 
 # 0.2.1 - 2019-08-15

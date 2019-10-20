@@ -59,7 +59,7 @@
 //! [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
 
 #![recursion_limit = "256"]
-#![doc(html_root_url = "https://docs.rs/const_fn/0.2.1")]
+#![doc(html_root_url = "https://docs.rs/const_fn/0.3.0")]
 #![doc(test(
     no_crate_inject,
     attr(deny(warnings, rust_2018_idioms, single_use_lifetimes), allow(dead_code))

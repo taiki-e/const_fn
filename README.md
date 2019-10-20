@@ -22,7 +22,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-const_fn = "0.2"
+const_fn = "0.3"
 ```
 
 The current const_fn requires Rust 1.31 or later.
