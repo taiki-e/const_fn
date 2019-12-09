@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.3.1] - 2019-12-09
+
 * Updated `syn-mid` to 0.5.
 
 ## [0.3.0] - 2019-10-20
@@ -54,7 +56,8 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/taiki-e/const_fn/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/taiki-e/const_fn/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/taiki-e/const_fn/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/taiki-e/const_fn/compare/v0.1.7...v0.2.0
