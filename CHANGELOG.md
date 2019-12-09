@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+* Updated `syn-mid` to 0.5.
+
 ## [0.3.0] - 2019-10-20
 
 * `#[const_fn]` attribute may only be used on const functions.

@@ -87,9 +87,9 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
 
     let mut item: ItemFn = syn::parse_macro_input!(function);
 
-    if item.constness.is_none() {
+    if item.sig.constness.is_none() {
         return syn::Error::new_spanned(
-            item.fn_token,
+            item.sig.fn_token,
             "#[const_fn] attribute may only be used on const functions",
         )
         .to_compile_error()
@@ -100,7 +100,7 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
     token.extend(item.to_token_stream());
 
     item.attrs.push(syn::parse_quote!(#[cfg(not(#args))]));
-    item.constness = None;
+    item.sig.constness = None;
     token.extend(item.into_token_stream());
 
     token.into()
