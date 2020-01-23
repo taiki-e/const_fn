@@ -32,6 +32,7 @@ fn test_const_min() {
 
 // const_let (rust 1.33+)
 
+#[allow(clippy::let_and_return)]
 #[const_fn(const_let)]
 const fn const_let<T>(x: T) -> T {
     let y = const_min(x);
