@@ -76,6 +76,7 @@ extern crate proc_macro;
 
 use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
+use syn::Error;
 use syn_mid::ItemFn;
 
 /// An attribute for easy generation of a const function with conditional compilations.
@@ -84,7 +85,7 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
     let args = proc_macro2::TokenStream::from(args);
 
     if args.is_empty() {
-        return syn::Error::new_spanned(args, "`const_fn` requires an argument")
+        return Error::new_spanned(args, "`const_fn` requires an argument")
             .to_compile_error()
             .into();
     }
@@ -92,7 +93,7 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
     let mut item: ItemFn = syn::parse_macro_input!(function);
 
     if item.sig.constness.is_none() {
-        return syn::Error::new_spanned(
+        return Error::new_spanned(
             item.sig.fn_token,
             "#[const_fn] attribute may only be used on const functions",
         )
