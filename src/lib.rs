@@ -67,8 +67,8 @@
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, single_use_lifetimes, unreachable_pub)]
 #![warn(clippy::all, clippy::default_trait_access)]
-// mem::take requires Rust 1.40
-#![allow(clippy::mem_replace_with_default)]
+// mem::take and #[non_exhaustive] requires Rust 1.40
+#![allow(clippy::mem_replace_with_default, clippy::manual_non_exhaustive)]
 
 // older compilers require explicit `extern crate`.
 #[allow(unused_extern_crates)]
