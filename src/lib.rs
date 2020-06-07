@@ -58,7 +58,6 @@
 //!
 //! [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
 
-#![recursion_limit = "256"]
 #![doc(html_root_url = "https://docs.rs/const_fn/0.3.1")]
 #![doc(test(
     no_crate_inject,
