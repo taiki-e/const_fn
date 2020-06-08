@@ -1,6 +1,6 @@
 //! An attribute for easy generation of a const function with conditional compilations.
 //!
-//! ## Examples
+//! # Examples
 //!
 //! When using like the following functions to control unstable features:
 //!
