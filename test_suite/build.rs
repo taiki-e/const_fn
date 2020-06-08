@@ -1,11 +1,9 @@
 #![warn(rust_2018_idioms, single_use_lifetimes)]
 
-use std::{env, process::Command};
+use std::{env, process::Command, str};
 
 fn main() {
-    println!("cargo:rerun-if-changed=build.rs");
-
-    let (minor, nightly) = match rustc_minor_version() {
+    let (minor, nightly) = match rustc_version() {
         Some(x) => x,
         None => return,
     };
@@ -24,15 +22,15 @@ fn main() {
     }
 }
 
-fn rustc_minor_version() -> Option<(u32, bool)> {
+fn rustc_version() -> Option<(u32, bool)> {
     let rustc = env::var_os("RUSTC")?;
     let output = Command::new(rustc).arg("--version").output().ok()?;
-    let version = String::from_utf8(output.stdout).ok()?;
-
-    let nightly = version.contains("nightly");
+    let version = str::from_utf8(&output.stdout).ok()?;
+    let nightly = version.contains("nightly") || version.contains("dev");
     let mut pieces = version.split('.');
     if pieces.next() != Some("rustc 1") {
         return None;
     }
-    pieces.next()?.parse().ok().map(|minor| (minor, nightly))
+    let minor = pieces.next()?.parse().ok()?;
+    Some((minor, nightly))
 }
