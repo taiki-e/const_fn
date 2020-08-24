@@ -2,61 +2,35 @@
 //!
 //! # Examples
 //!
-//! When using like the following functions to control unstable features:
-//!
-//! ```toml
-//! [features]
-//! const_unstable = []
-//! ```
-//!
-//! It can be written as follows:
-//!
 //! ```rust
-//! #![cfg_attr(feature = "const_unstable", feature(const_fn))]
 //! use const_fn::const_fn;
 //!
-//! pub struct Foo<T> {
-//!     x: T,
+//! // 1.36 and later compiler (including beta and nightly)
+//! #[const_fn("1.36")]
+//! pub const fn version() {
+//!     /* ... */
 //! }
 //!
-//! impl<T: Iterator> Foo<T> {
-//!     /// Constructs a new `Foo`.
-//!     #[const_fn(feature = "const_unstable")]
-//!     pub const fn new(x: T) -> Self {
-//!         Self { x }
-//!     }
+//! // nightly compiler (including dev build)
+//! #[const_fn(nightly)]
+//! pub const fn nightly() {
+//!     /* ... */
 //! }
-//! # fn main() {}
+//!
+//! // `cfg(...)`
+//! # #[cfg(any())]
+//! #[const_fn(cfg(...))]
+//! # pub fn _cfg() { unimplemented!() }
+//! pub const fn cfg() {
+//!     /* ... */
+//! }
+//!
+//! // `cfg(feature = "...")`
+//! #[const_fn(feature = "...")]
+//! pub const fn feature() {
+//!     /* ... */
+//! }
 //! ```
-//!
-//! Code like this will be generated:
-//!
-//! ```rust
-//! #![cfg_attr(feature = "const_unstable", feature(const_fn))]
-//!
-//! pub struct Foo<T> {
-//!     x: T,
-//! }
-//!
-//! impl<T: Iterator> Foo<T> {
-//!     /// Constructs a new `Foo`.
-//!     #[cfg(feature = "const_unstable")]
-//!     pub const fn new(x: T) -> Self {
-//!         Self { x }
-//!     }
-//!
-//!     /// Constructs a new `Foo`.
-//!     #[cfg(not(feature = "const_unstable"))]
-//!     pub fn new(x: T) -> Self {
-//!         Self { x }
-//!     }
-//! }
-//! # fn main() {}
-//! ```
-//!
-//! See [test_suite] for more examples.
-//!
-//! [test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
 
 #![doc(html_root_url = "https://docs.rs/const_fn/0.3.1")]
 #![doc(test(
@@ -74,20 +48,20 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
+use proc_macro2::TokenStream as TokenStream2;
 use quote::{quote, ToTokens};
-use syn::Error;
+use std::str::FromStr;
+use syn::{
+    parse::{Parse, ParseStream},
+    parse_quote, Error, *,
+};
 use syn_mid::ItemFn;
 
 /// An attribute for easy generation of a const function with conditional compilations.
+/// See crate level documentation for details.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
-    let args = proc_macro2::TokenStream::from(args);
-
-    if args.is_empty() {
-        return Error::new_spanned(args, "`const_fn` requires an argument")
-            .to_compile_error()
-            .into();
-    }
+    let arg: Arg = syn::parse_macro_input!(args);
 
     let mut item: ItemFn = syn::parse_macro_input!(function);
 
@@ -100,12 +74,117 @@ pub fn const_fn(args: TokenStream, function: TokenStream) -> TokenStream {
         .into();
     }
 
-    let mut token = quote!(#[cfg(#args)]);
-    token.extend(item.to_token_stream());
-
-    item.attrs.push(syn::parse_quote!(#[cfg(not(#args))]));
-    item.sig.constness = None;
-    token.extend(item.into_token_stream());
-
-    token.into()
+    match arg {
+        Arg::Cfg(c) => {
+            let mut tokens = quote!(#[cfg(#c)]);
+            tokens.extend(item.to_token_stream());
+            item.attrs.push(parse_quote!(#[cfg(not(#c))]));
+            item.sig.constness = None;
+            tokens.extend(item.into_token_stream());
+            tokens.into()
+        }
+        Arg::Feature(f, e, s) => {
+            let mut tokens = quote!(#[cfg(#f #e #s)]);
+            tokens.extend(item.to_token_stream());
+            item.attrs.push(parse_quote!(#[cfg(not(#f #e #s))]));
+            item.sig.constness = None;
+            tokens.extend(item.into_token_stream());
+            tokens.into()
+        }
+        Arg::Version(req) => {
+            if req.major > 1 || req.minor > VERSION.minor {
+                item.sig.constness = None;
+            }
+            item.into_token_stream().into()
+        }
+        Arg::Nightly => {
+            if !VERSION.nightly {
+                item.sig.constness = None;
+            }
+            item.into_token_stream().into()
+        }
+    }
 }
+
+mod kw {
+    syn::custom_keyword!(nightly);
+    syn::custom_keyword!(feature);
+    syn::custom_keyword!(cfg);
+}
+
+enum Arg {
+    // `const_fn("1.36")`
+    Version(VersionReq),
+    // `const_fn(nightly)`
+    Nightly,
+    // `const_fn(cfg(...))`
+    Cfg(TokenStream2),
+    // `const_fn(feature = "...")`
+    Feature(kw::feature, Token![=], LitStr),
+}
+
+impl Parse for Arg {
+    fn parse(input: ParseStream<'_>) -> Result<Self> {
+        let lookahead = input.lookahead1();
+        if lookahead.peek(kw::nightly) {
+            let _: kw::nightly = input.parse()?;
+            Ok(Arg::Nightly)
+        } else if lookahead.peek(kw::cfg) {
+            let _: kw::cfg = input.parse()?;
+            let content;
+            let _: token::Paren = syn::parenthesized!(content in input);
+            let t: TokenStream2 = content.parse()?;
+            Ok(Arg::Cfg(t))
+        } else if lookahead.peek(kw::feature) {
+            let f: kw::feature = input.parse()?;
+            let e: Token![=] = input.parse()?;
+            let s: LitStr = input.parse()?;
+            Ok(Arg::Feature(f, e, s))
+        } else if lookahead.peek(LitStr) {
+            let s: LitStr = input.parse()?;
+            match s.value().parse::<VersionReq>() {
+                Ok(req) => Ok(Arg::Version(req)),
+                Err(e) => Err(Error::new(s.span(), e)),
+            }
+        } else {
+            Err(lookahead.error())
+        }
+    }
+}
+
+struct VersionReq {
+    major: u16,
+    minor: u16,
+}
+
+impl FromStr for VersionReq {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut pieces = s.split('.');
+        let major = pieces
+            .next()
+            .ok_or("need to specify the major version")?
+            .parse::<u16>()
+            .map_err(|e| e.to_string())?;
+        let minor = pieces
+            .next()
+            .ok_or("need to specify the minor version")?
+            .parse::<u16>()
+            .map_err(|e| e.to_string())?;
+        if let Some(s) = pieces.next() {
+            Err(format!("unexpected input: {}", s))
+        } else {
+            Ok(Self { major, minor })
+        }
+    }
+}
+
+#[derive(Debug)]
+struct Version {
+    minor: u16,
+    patch: u16,
+    nightly: bool,
+}
+
+const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version.rs"));

@@ -9,13 +9,13 @@ fn main() {
     };
 
     if minor >= 31 || nightly {
-        println!("cargo:rustc-cfg=min_const_fn");
+        println!("cargo:rustc-cfg=has_min_const_fn");
     }
     if minor >= 33 || nightly {
-        println!("cargo:rustc-cfg=const_let");
+        println!("cargo:rustc-cfg=has_const_let");
     }
     if minor >= 39 || nightly {
-        println!("cargo:rustc-cfg=const_vec_new");
+        println!("cargo:rustc-cfg=has_const_vec_new");
     }
     if nightly {
         println!("cargo:rustc-cfg=const_unstable");
