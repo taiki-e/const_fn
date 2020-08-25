@@ -96,13 +96,13 @@ pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
             tokens
         }
         Arg::Version(req) => {
-            if req.major > 1 || req.minor > VERSION.minor {
+            if req.major > 1 || VERSION.as_ref().map_or(true, |v| req.minor > v.minor) {
                 func.print_const = false;
             }
             func.to_token_stream()
         }
         Arg::Nightly => {
-            if !VERSION.nightly {
+            if VERSION.as_ref().map_or(true, |v| !v.nightly) {
                 func.print_const = false;
             }
             func.to_token_stream()
@@ -208,4 +208,7 @@ struct Version {
     nightly: bool,
 }
 
-const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version.rs"));
+#[cfg(const_fn_has_build_script)]
+const VERSION: Option<Version> = Some(include!(concat!(env!("OUT_DIR"), "/version.rs")));
+#[cfg(not(const_fn_has_build_script))]
+const VERSION: Option<Version> = None;

@@ -1,6 +1,8 @@
 use std::{env, fs, path::PathBuf};
 
 fn main() {
+    println!("cargo:rustc-cfg=const_fn_has_build_script");
+
     let version = match Version::new() {
         Some(version) => format!("{:#?}\n", version),
         None => panic!("unexpected output from `rustc --version`"),
