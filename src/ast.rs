@@ -2,7 +2,10 @@ use proc_macro2::{Delimiter, Literal, Span, TokenStream, TokenTree};
 use quote::ToTokens;
 use std::iter::Peekable;
 
-use crate::utils::{parse_as_empty, tt_span};
+use crate::{
+    utils::{parse_as_empty, tt_span},
+    Result,
+};
 
 pub(crate) struct Func {
     pub(crate) attrs: Vec<Attribute>,
@@ -11,7 +14,7 @@ pub(crate) struct Func {
     pub(crate) print_const: bool,
 }
 
-pub(crate) fn parse_input(input: TokenStream) -> Result<Func, TokenStream> {
+pub(crate) fn parse_input(input: TokenStream) -> Result<Func> {
     let mut input = input.into_iter().peekable();
 
     let attrs = parse_attrs(&mut input)?;
@@ -66,9 +69,7 @@ fn parse_signature(input: &mut Peekable<impl Iterator<Item = TokenTree>>) -> Vec
     sig
 }
 
-fn parse_attrs(
-    input: &mut Peekable<impl Iterator<Item = TokenTree>>,
-) -> Result<Vec<Attribute>, TokenStream> {
+fn parse_attrs(input: &mut Peekable<impl Iterator<Item = TokenTree>>) -> Result<Vec<Attribute>> {
     let mut attrs = Vec::new();
     loop {
         let pound_token = match input.peek() {
@@ -106,7 +107,7 @@ pub(crate) struct LitStr {
 }
 
 impl LitStr {
-    pub(crate) fn new(token: &Literal) -> Result<Self, TokenStream> {
+    pub(crate) fn new(token: &Literal) -> Result<Self> {
         let value = token.to_string();
         // unlike `syn::LitStr`, only accepts `"..."`
         if value.starts_with('"') && value.ends_with('"') {

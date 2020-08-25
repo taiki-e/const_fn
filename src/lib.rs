@@ -51,13 +51,19 @@ extern crate proc_macro;
 mod utils;
 
 mod ast;
+mod error;
 
 use proc_macro::TokenStream;
 use proc_macro2::{Delimiter, TokenStream as TokenStream2, TokenTree};
 use quote::{quote, ToTokens};
 use std::str::FromStr;
 
-use crate::utils::{parse_as_empty, tt_span};
+use crate::{
+    error::Error,
+    utils::{parse_as_empty, tt_span},
+};
+
+pub(crate) type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// An attribute for easy generation of a const function with conditional compilations.
 /// See crate level documentation for details.
@@ -65,11 +71,11 @@ use crate::utils::{parse_as_empty, tt_span};
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
     let arg = match parse_arg(args.into()) {
         Ok(a) => a,
-        Err(e) => return e.into(),
+        Err(e) => return e.to_compile_error(),
     };
     let mut func = match ast::parse_input(input.into()) {
         Ok(i) => i,
-        Err(e) => return e.into(),
+        Err(e) => return e.to_compile_error(),
     };
 
     match arg {
@@ -115,7 +121,7 @@ enum Arg {
     Feature(TokenStream2),
 }
 
-fn parse_arg(tokens: TokenStream2) -> Result<Arg, TokenStream2> {
+fn parse_arg(tokens: TokenStream2) -> Result<Arg> {
     let tokens2 = tokens.clone();
     let mut iter = tokens.into_iter();
 
