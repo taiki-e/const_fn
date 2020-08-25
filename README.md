@@ -29,59 +29,33 @@ The current const_fn requires Rust 1.31 or later.
 
 ## Examples
 
-When using like the following functions to control unstable features:
-
-```toml
-[features]
-const_unstable = []
-```
-
-It can be written as follows:
-
 ```rust
-#![cfg_attr(feature = "const_unstable", feature(const_fn))]
 use const_fn::const_fn;
 
-pub struct Foo<T> {
-    x:T,
+// 1.36 and later compiler (including beta and nightly)
+#[const_fn("1.36")]
+pub const fn version() {
+    /* ... */
 }
 
-impl<T: Iterator> Foo<T> {
-    /// Constructs a new `Foo`.
-    #[const_fn(feature = "const_unstable")]
-    pub const fn new(x: T) -> Self {
-        Self { x }
-    }
-}
-```
-
-Code like this will be generated:
-
-```rust
-#![cfg_attr(feature = "const_unstable", feature(const_fn))]
-
-pub struct Foo<T> {
-    x:T,
+// nightly compiler (including dev build)
+#[const_fn(nightly)]
+pub const fn nightly() {
+    /* ... */
 }
 
-impl<T: Iterator> Foo<T> {
-    /// Constructs a new `Foo`.
-    #[cfg(feature = "const_unstable")]
-    pub const fn new(x: T) -> Self {
-        Self { x }
-    }
+// `cfg(...)`
+#[const_fn(cfg(...))]
+pub const fn cfg() {
+    /* ... */
+}
 
-    /// Constructs a new `Foo`.
-    #[cfg(not(feature = "const_unstable"))]
-    pub fn new(x: T) -> Self {
-        Self { x }
-    }
+// `cfg(feature = "...")`
+#[const_fn(feature = "...")]
+pub const fn feature() {
+    /* ... */
 }
 ```
-
-See [test_suite] for more examples.
-
-[test_suite]: https://github.com/taiki-e/const_fn/tree/master/test_suite
 
 ## License
 
