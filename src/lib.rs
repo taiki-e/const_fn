@@ -52,15 +52,16 @@ mod utils;
 
 mod ast;
 mod error;
+mod to_tokens;
 
 use proc_macro::TokenStream;
 use proc_macro2::{Delimiter, TokenStream as TokenStream2, TokenTree};
-use quote::{quote, ToTokens};
 use std::str::FromStr;
 
 use crate::{
     error::Error,
-    utils::{parse_as_empty, tt_span},
+    to_tokens::ToTokens,
+    utils::{cfg_attrs, parse_as_empty, tt_span},
 };
 
 pub(crate) type Result<T, E = Error> = std::result::Result<T, E>;
@@ -80,32 +81,32 @@ pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
 
     match arg {
         Arg::Cfg(c) => {
-            let mut tokens = quote!(#[cfg(#c)]);
+            let (mut tokens, cfg_not) = cfg_attrs(c);
             tokens.extend(func.to_token_stream());
-            tokens.extend(quote!(#[cfg(not(#c))]));
+            tokens.extend(cfg_not);
             func.print_const = false;
-            tokens.extend(func.into_token_stream());
+            tokens.extend(func.to_token_stream());
             tokens.into()
         }
         Arg::Feature(f) => {
-            let mut tokens = quote!(#[cfg(#f)]);
+            let (mut tokens, cfg_not) = cfg_attrs(f);
             tokens.extend(func.to_token_stream());
-            tokens.extend(quote!(#[cfg(not(#f))]));
+            tokens.extend(cfg_not);
             func.print_const = false;
-            tokens.extend(func.into_token_stream());
+            tokens.extend(func.to_token_stream());
             tokens.into()
         }
         Arg::Version(req) => {
             if req.major > 1 || req.minor > VERSION.minor {
                 func.print_const = false;
             }
-            func.into_token_stream().into()
+            func.to_token_stream().into()
         }
         Arg::Nightly => {
             if !VERSION.nightly {
                 func.print_const = false;
             }
-            func.into_token_stream().into()
+            func.to_token_stream().into()
         }
     }
 }

@@ -1,8 +1,8 @@
 use proc_macro2::{Delimiter, Literal, Span, TokenStream, TokenTree};
-use quote::ToTokens;
 use std::iter::Peekable;
 
 use crate::{
+    to_tokens::ToTokens,
     utils::{parse_as_empty, tt_span},
     Result,
 };
