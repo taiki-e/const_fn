@@ -19,10 +19,8 @@ pub mod version {
         x
     }
 
-    #[cfg(has_min_const_fn)]
     const CONST_MIN: &str = const_min("min_const_fn");
 
-    #[cfg(has_min_const_fn)]
     #[test]
     fn test_const_min() {
         assert!(CONST_MIN == "min_const_fn");
@@ -39,10 +37,10 @@ pub mod version {
         y
     }
 
-    #[cfg(has_const_let)]
+    #[rustversion::since(1.33)]
     const CONST_LET: &str = const_let("const_let");
 
-    #[cfg(has_const_let)]
+    #[rustversion::since(1.33)]
     #[test]
     fn test_const_let() {
         assert!(CONST_LET == "const_let");
@@ -56,10 +54,10 @@ pub mod version {
         Vec::new()
     }
 
-    #[cfg(has_const_vec_new)]
+    #[rustversion::since(1.39)]
     const CONST_VEC_NEW: Vec<u8> = const_vec_new();
 
-    #[cfg(has_const_vec_new)]
+    #[rustversion::since(1.39)]
     #[test]
     fn test_const_vec_new() {
         assert_eq!(CONST_VEC_NEW, Vec::new());
@@ -77,7 +75,7 @@ pub mod version {
         }
     }
 
-    #[cfg(const_unstable)]
+    #[rustversion::nightly]
     pub const CONST_UNSTABLE: A<Vec<u8>> = A::const_unstable(const_vec_new());
 }
 
@@ -99,10 +97,8 @@ pub mod cfg {
         x
     }
 
-    #[cfg(has_min_const_fn)]
     pub const CONST_MIN: &str = const_min("min_const_fn");
 
-    #[cfg(has_min_const_fn)]
     #[test]
     fn test_const_min() {
         assert!(CONST_MIN == "min_const_fn");
@@ -119,10 +115,10 @@ pub mod cfg {
         y
     }
 
-    #[cfg(has_const_let)]
+    #[rustversion::since(1.33)]
     const CONST_LET: &str = const_let("const_let");
 
-    #[cfg(has_const_let)]
+    #[rustversion::since(1.33)]
     #[test]
     fn test_const_let() {
         assert!(CONST_LET == "const_let");
@@ -136,10 +132,10 @@ pub mod cfg {
         Vec::new()
     }
 
-    #[cfg(has_const_vec_new)]
+    #[rustversion::since(1.39)]
     const CONST_VEC_NEW: Vec<u8> = const_vec_new();
 
-    #[cfg(has_const_vec_new)]
+    #[rustversion::since(1.39)]
     #[test]
     fn test_const_vec_new() {
         assert_eq!(CONST_VEC_NEW, Vec::new());
@@ -157,6 +153,6 @@ pub mod cfg {
         }
     }
 
-    #[cfg(const_unstable)]
+    #[rustversion::nightly]
     pub const CONST_UNSTABLE: A<Vec<u8>> = A::const_unstable(const_vec_new());
 }
