@@ -6,6 +6,40 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.4.0] - 2020-08-25
+
+* [Add support for version-based code generation.](https://github.com/taiki-e/const_fn/pull/17) The following conditions are available:
+
+  ```rust
+  use const_fn::const_fn;
+
+  // function is `const` on specified version and later compiler (including beta and nightly)
+  #[const_fn("1.36")]
+  pub const fn version() {
+      /* ... */
+  }
+
+  // function is `const` on nightly compiler (including dev build)
+  #[const_fn(nightly)]
+  pub const fn nightly() {
+      /* ... */
+  }
+
+  // function is `const` if `cfg(...)` is true
+  #[const_fn(cfg(...))]
+  pub const fn cfg() {
+      /* ... */
+  }
+
+  // function is `const` if `cfg(feature = "...")` is true
+  #[const_fn(feature = "...")]
+  pub const fn feature() {
+      /* ... */
+  }
+  ```
+
+* Improve compile time by removing proc-macro related dependencies ([#18](https://github.com/taiki-e/const_fn/pull/18), [#20](https://github.com/taiki-e/const_fn/pull/20)).
+
 ## [0.3.1] - 2019-12-09
 
 * Updated `syn-mid` to 0.5.
@@ -56,7 +90,8 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/taiki-e/const_fn/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/taiki-e/const_fn/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/taiki-e/const_fn/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/taiki-e/const_fn/compare/v0.2.0...v0.2.1
