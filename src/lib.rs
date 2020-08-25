@@ -32,7 +32,7 @@
 //! }
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/const_fn/0.4.0")]
+#![doc(html_root_url = "https://docs.rs/const_fn/0.4.1")]
 #![doc(test(
     no_crate_inject,
     attr(deny(warnings, rust_2018_idioms, single_use_lifetimes), allow(dead_code))
