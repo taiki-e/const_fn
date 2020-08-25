@@ -1,8 +1,8 @@
-use proc_macro2::{Delimiter, Literal, Span, TokenStream, TokenTree};
-use quote::ToTokens;
+use proc_macro::{Delimiter, Literal, Span, TokenStream, TokenTree};
 use std::iter::Peekable;
 
 use crate::{
+    to_tokens::ToTokens,
     utils::{parse_as_empty, tt_span},
     Result,
 };
@@ -23,17 +23,22 @@ pub(crate) fn parse_input(input: TokenStream) -> Result<Func> {
     parse_as_empty(input)?;
 
     if body.is_none()
-        || !sig.iter().any(|tt| if let TokenTree::Ident(i) = tt { i == "fn" } else { false })
+        || !sig
+            .iter()
+            .any(|tt| if let TokenTree::Ident(i) = tt { i.to_string() == "fn" } else { false })
     {
         return Err(error!(
             Span::call_site(),
             "#[const_fn] attribute may only be used on functions"
         ));
     }
-    if !sig.iter().any(|tt| if let TokenTree::Ident(i) = tt { i == "const" } else { false }) {
+    if !sig
+        .iter()
+        .any(|tt| if let TokenTree::Ident(i) = tt { i.to_string() == "const" } else { false })
+    {
         let span = sig
             .iter()
-            .position(|tt| if let TokenTree::Ident(i) = tt { i == "fn" } else { false })
+            .position(|tt| if let TokenTree::Ident(i) = tt { i.to_string() == "fn" } else { false })
             .map(|i| sig[i].span())
             .unwrap();
         return Err(error!(span, "#[const_fn] attribute may only be used on const functions"));
@@ -50,7 +55,9 @@ impl ToTokens for Func {
         } else {
             self.sig
                 .iter()
-                .filter(|tt| if let TokenTree::Ident(i) = tt { i != "const" } else { true })
+                .filter(
+                    |tt| if let TokenTree::Ident(i) = tt { i.to_string() != "const" } else { true },
+                )
                 .for_each(|tt| tt.to_tokens(tokens));
         }
         self.body.to_tokens(tokens);
