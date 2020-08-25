@@ -5,19 +5,19 @@
 //! ```rust
 //! use const_fn::const_fn;
 //!
-//! // 1.36 and later compiler (including beta and nightly)
+//! // function is `const` on specified version and later compiler (including beta and nightly)
 //! #[const_fn("1.36")]
 //! pub const fn version() {
 //!     /* ... */
 //! }
 //!
-//! // nightly compiler (including dev build)
+//! // function is `const` on nightly compiler (including dev build)
 //! #[const_fn(nightly)]
 //! pub const fn nightly() {
 //!     /* ... */
 //! }
 //!
-//! // `cfg(...)`
+//! // function is `const` if `cfg(...)` is true
 //! # #[cfg(any())]
 //! #[const_fn(cfg(...))]
 //! # pub fn _cfg() { unimplemented!() }
@@ -25,14 +25,14 @@
 //!     /* ... */
 //! }
 //!
-//! // `cfg(feature = "...")`
+//! // function is `const` if `cfg(feature = "...")` is true
 //! #[const_fn(feature = "...")]
 //! pub const fn feature() {
 //!     /* ... */
 //! }
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/const_fn/0.3.1")]
+#![doc(html_root_url = "https://docs.rs/const_fn/0.4.0")]
 #![doc(test(
     no_crate_inject,
     attr(deny(warnings, rust_2018_idioms, single_use_lifetimes), allow(dead_code))

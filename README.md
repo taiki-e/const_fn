@@ -14,7 +14,7 @@
 [rustc-badge]: https://img.shields.io/badge/rustc-1.31+-lightgray.svg
 [rustc-url]: https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html
 
-An attribute for easy generation of a const function with conditional compilations.
+An attribute for easy generation of const functions with conditional compilations.
 
 ## Usage
 
@@ -22,7 +22,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-const_fn = "0.3"
+const_fn = "0.4"
 ```
 
 The current const_fn requires Rust 1.31 or later.
@@ -32,25 +32,25 @@ The current const_fn requires Rust 1.31 or later.
 ```rust
 use const_fn::const_fn;
 
-// 1.36 and later compiler (including beta and nightly)
+// function is `const` on specified version and later compiler (including beta and nightly)
 #[const_fn("1.36")]
 pub const fn version() {
     /* ... */
 }
 
-// nightly compiler (including dev build)
+// function is `const` on nightly compiler (including dev build)
 #[const_fn(nightly)]
 pub const fn nightly() {
     /* ... */
 }
 
-// `cfg(...)`
+// function is `const` if `cfg(...)` is true
 #[const_fn(cfg(...))]
 pub const fn cfg() {
     /* ... */
 }
 
-// `cfg(feature = "...")`
+// function is `const` if `cfg(feature = "...")` is true
 #[const_fn(feature = "...")]
 pub const fn feature() {
     /* ... */
