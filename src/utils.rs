@@ -1,11 +1,11 @@
-use proc_macro2::*;
+use proc_macro::*;
 use std::iter::FromIterator;
 
 use crate::Result;
 
 macro_rules! error {
     ($span:expr, $msg:expr) => {{
-        crate::error::Error::new($span.unwrap(), $msg)
+        crate::error::Error::new($span, $msg)
     }};
     ($span:expr, $($tt:tt)*) => {
         error!($span, format!($($tt)*))

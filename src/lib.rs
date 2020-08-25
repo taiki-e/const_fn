@@ -54,8 +54,7 @@ mod ast;
 mod error;
 mod to_tokens;
 
-use proc_macro::TokenStream;
-use proc_macro2::{Delimiter, TokenStream as TokenStream2, TokenTree};
+use proc_macro::{Delimiter, TokenStream, TokenTree};
 use std::str::FromStr;
 
 use crate::{
@@ -70,11 +69,11 @@ pub(crate) type Result<T, E = Error> = std::result::Result<T, E>;
 /// See crate level documentation for details.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
-    let arg = match parse_arg(args.into()) {
+    let arg = match parse_arg(args) {
         Ok(a) => a,
         Err(e) => return e.to_compile_error(),
     };
-    let mut func = match ast::parse_input(input.into()) {
+    let mut func = match ast::parse_input(input) {
         Ok(i) => i,
         Err(e) => return e.to_compile_error(),
     };
@@ -86,7 +85,7 @@ pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
             tokens.extend(cfg_not);
             func.print_const = false;
             tokens.extend(func.to_token_stream());
-            tokens.into()
+            tokens
         }
         Arg::Feature(f) => {
             let (mut tokens, cfg_not) = cfg_attrs(f);
@@ -94,19 +93,19 @@ pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
             tokens.extend(cfg_not);
             func.print_const = false;
             tokens.extend(func.to_token_stream());
-            tokens.into()
+            tokens
         }
         Arg::Version(req) => {
             if req.major > 1 || req.minor > VERSION.minor {
                 func.print_const = false;
             }
-            func.to_token_stream().into()
+            func.to_token_stream()
         }
         Arg::Nightly => {
             if !VERSION.nightly {
                 func.print_const = false;
             }
-            func.to_token_stream().into()
+            func.to_token_stream()
         }
     }
 }
@@ -117,12 +116,12 @@ enum Arg {
     // `const_fn(nightly)`
     Nightly,
     // `const_fn(cfg(...))`
-    Cfg(TokenStream2),
+    Cfg(TokenStream),
     // `const_fn(feature = "...")`
-    Feature(TokenStream2),
+    Feature(TokenStream),
 }
 
-fn parse_arg(tokens: TokenStream2) -> Result<Arg> {
+fn parse_arg(tokens: TokenStream) -> Result<Arg> {
     let tokens2 = tokens.clone();
     let mut iter = tokens.into_iter();
 

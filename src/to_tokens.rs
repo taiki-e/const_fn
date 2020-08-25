@@ -1,4 +1,4 @@
-use proc_macro2::*;
+use proc_macro::*;
 use std::iter;
 
 pub(crate) trait ToTokens {
@@ -32,19 +32,5 @@ impl ToTokens for TokenTree {
 impl ToTokens for TokenStream {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         tokens.extend(self.clone());
-    }
-}
-
-impl<T: ToTokens> ToTokens for Option<T> {
-    fn to_tokens(&self, tokens: &mut TokenStream) {
-        if let Some(t) = self {
-            T::to_tokens(t, tokens);
-        }
-    }
-}
-
-impl<T: ToTokens> ToTokens for &T {
-    fn to_tokens(&self, tokens: &mut TokenStream) {
-        T::to_tokens(*self, tokens);
     }
 }
