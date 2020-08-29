@@ -31,6 +31,12 @@
 //!     /* ... */
 //! }
 //! ```
+//!
+//! # Alternatives
+//!
+//! This crate is proc-macro, but implementation is very simple and [has no proc-macro related dependencies](https://github.com/taiki-e/const_fn/blob/3e63d0f9fd1a49555e28b6cbcd6498903fde79f7/Cargo.toml#L26-L29) (only depend on [`version_check`](https://github.com/SergioBenitez/version_check) crate as build-dependencies), so it has little impact on compile time.
+//!
+//! You can manually define declarative macros with similar functionality, or [you can define the same function twice with different cfg](https://github.com/crossbeam-rs/crossbeam/blob/0b6ea5f69fde8768c1cfac0d3601e0b4325d7997/crossbeam-epoch/src/atomic.rs#L340-L372).
 
 #![doc(html_root_url = "https://docs.rs/const_fn/0.4.1")]
 #![doc(test(
