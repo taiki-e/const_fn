@@ -63,7 +63,7 @@ use crate::{
     utils::{cfg_attrs, parse_as_empty, tt_span},
 };
 
-pub(crate) type Result<T, E = Error> = std::result::Result<T, E>;
+type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// An attribute for easy generation of a const function with conditional compilations.
 /// See crate level documentation for details.
