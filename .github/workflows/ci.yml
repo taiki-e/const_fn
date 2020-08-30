@@ -29,6 +29,7 @@ jobs:
           - 1.31.0
           - 1.33.0
           - 1.39.0
+          - 1.45.2
           - stable
           - beta
           - nightly
@@ -42,12 +43,18 @@ jobs:
         if: matrix.rust == 'nightly'
         run: |
           cargo install cargo-hack
+      - name: cargo build
+        run: |
+          cargo clean
+          cargo build
       - name: cargo test
         run: |
+          cargo clean
           cargo test --all
       - name: cargo check (minimal versions)
         if: matrix.rust == 'nightly'
         run: |
+          cargo clean
           . ./ci/check-minimal-versions.sh
 
   clippy:
