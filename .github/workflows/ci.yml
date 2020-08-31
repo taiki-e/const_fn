@@ -29,6 +29,7 @@ jobs:
           - 1.31.0
           - 1.33.0
           - 1.39.0
+          - 1.46.0
           - stable
           - beta
           - nightly

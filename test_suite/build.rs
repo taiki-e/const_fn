@@ -17,6 +17,9 @@ fn main() {
     if minor >= 39 || nightly {
         println!("cargo:rustc-cfg=has_const_vec_new");
     }
+    if minor >= 46 || nightly {
+        println!("cargo:rustc-cfg=has_const_match");
+    }
     if nightly {
         println!("cargo:rustc-cfg=const_unstable");
     }
