@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.4.2] - 2020-08-31
+
+* [Improve error messages when failed to parse version information.](https://github.com/taiki-e/const_fn/pull/26)
+
 ## [0.4.1] - 2020-08-25
 
 * [Fix compile failure with non-cargo build systems.](https://github.com/taiki-e/const_fn/pull/23)
@@ -94,7 +98,8 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/taiki-e/const_fn/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/taiki-e/const_fn/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/taiki-e/const_fn/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/taiki-e/const_fn/compare/v0.3.0...v0.3.1
