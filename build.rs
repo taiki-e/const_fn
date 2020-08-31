@@ -1,5 +1,8 @@
 use std::{env, fs, path::PathBuf};
 
+// The rustc-cfg strings below are *not* public API. Please let us know by
+// opening a GitHub issue if your build environment requires some way to enable
+// these cfgs other than by executing our build script.
 fn main() {
     println!("cargo:rustc-cfg=const_fn_has_build_script");
 
