@@ -1,4 +1,4 @@
-use proc_macro::*;
+use proc_macro::{Delimiter, Group, Ident, Punct, Spacing, Span, TokenStream, TokenTree};
 use std::iter::FromIterator;
 
 use crate::Result;

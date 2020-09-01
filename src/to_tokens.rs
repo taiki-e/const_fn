@@ -1,4 +1,4 @@
-use proc_macro::*;
+use proc_macro::{Ident, Literal, TokenStream, TokenTree};
 use std::iter;
 
 pub(crate) trait ToTokens {
