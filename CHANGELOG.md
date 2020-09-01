@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 * [Improve error messages when failed to parse version information.](https://github.com/taiki-e/const_fn/pull/26)
 
+* [Fix compile failure with cargo installed by yum.](https://github.com/taiki-e/const_fn/pull/26)
+
 ## [0.4.1] - 2020-08-25
 
 * [Fix compile failure with non-cargo build systems.](https://github.com/taiki-e/const_fn/pull/23)
