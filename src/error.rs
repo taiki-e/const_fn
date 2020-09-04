@@ -1,5 +1,5 @@
 use proc_macro::{Delimiter, Group, Ident, Literal, Punct, Spacing, Span, TokenStream, TokenTree};
-use std::{fmt, iter::FromIterator};
+use std::iter::FromIterator;
 
 pub(crate) struct Error {
     span: Span,
@@ -7,8 +7,8 @@ pub(crate) struct Error {
 }
 
 impl Error {
-    pub(crate) fn new(span: Span, msg: impl fmt::Display) -> Self {
-        Error { span, msg: msg.to_string() }
+    pub(crate) fn new(span: Span, msg: impl Into<String>) -> Self {
+        Self { span, msg: msg.into() }
     }
 
     // https://github.com/dtolnay/syn/blob/1.0.39/src/error.rs#L218-L237
