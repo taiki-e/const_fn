@@ -59,6 +59,7 @@ mod utils;
 
 mod ast;
 mod error;
+mod iter;
 mod to_tokens;
 
 use proc_macro::{Delimiter, TokenStream, TokenTree};
@@ -201,7 +202,7 @@ impl FromStr for VersionReq {
             .parse::<u16>()
             .map_err(|e| e.to_string())?;
         if let Some(s) = pieces.next() {
-            Err(format!("unexpected input: {}", s))
+            Err(format!("unexpected input: .{}", s))
         } else {
             Ok(Self { major, minor })
         }
