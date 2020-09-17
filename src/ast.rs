@@ -70,7 +70,7 @@ fn parse_signature(input: &mut TokenIter) -> Vec<TokenTree> {
         match input.peek() {
             Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Brace => break,
             None => break,
-            _ => sig.push(input.next().unwrap()),
+            Some(_) => sig.push(input.next().unwrap()),
         }
     }
     sig
@@ -114,11 +114,11 @@ pub(crate) struct LitStr {
 }
 
 impl LitStr {
-    pub(crate) fn new(token: &Literal) -> Result<Self> {
+    pub(crate) fn new(token: Literal) -> Result<Self> {
         let value = token.to_string();
         // unlike `syn::LitStr`, only accepts `"..."`
         if value.starts_with('"') && value.ends_with('"') {
-            Ok(Self { token: token.clone(), value })
+            Ok(Self { token, value })
         } else {
             Err(error!(token.span(), "expected string literal"))
         }

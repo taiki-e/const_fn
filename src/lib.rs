@@ -138,7 +138,8 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
     let mut iter = tokens.into_iter();
 
     let next = iter.next();
-    match &next {
+    let next_span = tt_span(next.as_ref());
+    match next {
         Some(TokenTree::Ident(i)) => match i.to_string().as_str() {
             "nightly" => {
                 parse_as_empty(iter)?;
@@ -179,10 +180,7 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
         _ => {}
     }
 
-    Err(error!(
-        tt_span(next.as_ref()),
-        "expected one of: `nightly`, `cfg`, `feature`, string literal"
-    ))
+    Err(error!(next_span, "expected one of: `nightly`, `cfg`, `feature`, string literal"))
 }
 
 struct VersionReq {
