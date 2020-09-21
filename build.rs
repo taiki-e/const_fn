@@ -25,7 +25,6 @@ fn main() {
 #[derive(Debug)]
 struct Version {
     minor: u16,
-    patch: u16,
     nightly: bool,
 }
 
@@ -53,10 +52,10 @@ impl Version {
             return None;
         }
         let minor = digits.next()?.parse().ok()?;
-        let patch = digits.next().unwrap_or("0").parse().ok()?;
+        let _patch: u16 = digits.next().unwrap_or("0").parse().ok()?;
 
         let nightly = channel.map_or(false, |c| c == "dev" || c == "nightly");
-        Some(Version { minor, patch, nightly })
+        Some(Version { minor, nightly })
     }
 
     fn from_rustc(rustc: &Path) -> Result<Self, String> {

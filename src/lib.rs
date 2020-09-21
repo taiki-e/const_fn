@@ -70,6 +70,7 @@ use proc_macro::{Delimiter, TokenStream, TokenTree};
 use std::str::FromStr;
 
 use crate::{
+    ast::{Func, LitStr},
     error::Error,
     to_tokens::ToTokens,
     utils::{cfg_attrs, parse_as_empty, tt_span},
@@ -82,25 +83,29 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
     let arg = match parse_arg(args) {
-        Ok(a) => a,
+        Ok(arg) => arg,
         Err(e) => return e.to_compile_error(),
     };
-    let mut func = match ast::parse_input(input) {
-        Ok(i) => i,
+    let func = match ast::parse_input(input) {
+        Ok(func) => func,
         Err(e) => return e.to_compile_error(),
     };
 
+    expand(arg, func)
+}
+
+fn expand(arg: Arg, mut func: Func) -> TokenStream {
     match arg {
-        Arg::Cfg(c) => {
-            let (mut tokens, cfg_not) = cfg_attrs(c);
+        Arg::Cfg(cfg) => {
+            let (mut tokens, cfg_not) = cfg_attrs(cfg);
             tokens.extend(func.to_token_stream());
             tokens.extend(cfg_not);
             func.print_const = false;
             tokens.extend(func.to_token_stream());
             tokens
         }
-        Arg::Feature(f) => {
-            let (mut tokens, cfg_not) = cfg_attrs(f);
+        Arg::Feature(feat) => {
+            let (mut tokens, cfg_not) = cfg_attrs(feat);
             tokens.extend(func.to_token_stream());
             tokens.extend(cfg_not);
             func.print_const = false;
@@ -134,13 +139,12 @@ enum Arg {
 }
 
 fn parse_arg(tokens: TokenStream) -> Result<Arg> {
-    let tokens2 = tokens.clone();
     let mut iter = tokens.into_iter();
 
     let next = iter.next();
     let next_span = tt_span(next.as_ref());
     match next {
-        Some(TokenTree::Ident(i)) => match i.to_string().as_str() {
+        Some(TokenTree::Ident(i)) => match &*i.to_string() {
             "nightly" => {
                 parse_as_empty(iter)?;
                 return Ok(Arg::Nightly);
@@ -155,21 +159,26 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                 };
             }
             "feature" => {
-                return match iter.next().as_ref() {
-                    Some(TokenTree::Punct(p)) if p.as_char() == '=' => match iter.next().as_ref() {
-                        Some(TokenTree::Literal(l)) if l.to_string().starts_with('"') => {
+                return match iter.next() {
+                    Some(TokenTree::Punct(p)) if p.as_char() == '=' => match iter.next() {
+                        Some(TokenTree::Literal(l)) => {
+                            let l = LitStr::new(l)?;
                             parse_as_empty(iter)?;
-                            Ok(Arg::Feature(tokens2))
+                            Ok(Arg::Feature(
+                                vec![TokenTree::Ident(i), p.into(), l.token.into()]
+                                    .into_iter()
+                                    .collect(),
+                            ))
                         }
-                        tt => Err(error!(tt_span(tt), "expected `=`")),
+                        tt => Err(error!(tt_span(tt.as_ref()), "expected string literal")),
                     },
-                    tt => Err(error!(tt_span(tt), "expected `=`")),
+                    tt => Err(error!(tt_span(tt.as_ref()), "expected `=`")),
                 };
             }
             _ => {}
         },
         Some(TokenTree::Literal(l)) => {
-            if let Ok(l) = ast::LitStr::new(l) {
+            if let Ok(l) = LitStr::new(l) {
                 parse_as_empty(iter)?;
                 return match l.value().parse::<VersionReq>() {
                     Ok(req) => Ok(Arg::Version(req)),
@@ -211,10 +220,8 @@ impl FromStr for VersionReq {
     }
 }
 
-#[derive(Debug)]
 struct Version {
     minor: u16,
-    patch: u16,
     nightly: bool,
 }
 

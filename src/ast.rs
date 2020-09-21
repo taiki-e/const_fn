@@ -109,7 +109,7 @@ impl ToTokens for Attribute {
 }
 
 pub(crate) struct LitStr {
-    token: Literal,
+    pub(crate) token: Literal,
     value: String,
 }
 
