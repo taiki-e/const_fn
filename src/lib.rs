@@ -159,20 +159,21 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                 };
             }
             "feature" => {
-                return match iter.next() {
+                let next = iter.next();
+                return match next.as_ref() {
                     Some(TokenTree::Punct(p)) if p.as_char() == '=' => match iter.next() {
                         Some(TokenTree::Literal(l)) => {
                             let l = LitStr::new(l)?;
                             parse_as_empty(iter)?;
                             Ok(Arg::Feature(
-                                vec![TokenTree::Ident(i), p.into(), l.token.into()]
+                                vec![TokenTree::Ident(i), next.unwrap(), l.token.into()]
                                     .into_iter()
                                     .collect(),
                             ))
                         }
                         tt => Err(error!(tt_span(tt.as_ref()), "expected string literal")),
                     },
-                    tt => Err(error!(tt_span(tt.as_ref()), "expected `=`")),
+                    tt => Err(error!(tt_span(tt), "expected `=`")),
                 };
             }
             _ => {}
