@@ -45,7 +45,7 @@
     attr(deny(warnings, rust_2018_idioms, single_use_lifetimes), allow(dead_code))
 ))]
 #![forbid(unsafe_code)]
-#![warn(rust_2018_idioms, single_use_lifetimes, unreachable_pub)]
+#![warn(future_incompatible, rust_2018_idioms, single_use_lifetimes, unreachable_pub)]
 #![warn(clippy::all, clippy::default_trait_access)]
 // mem::take and #[non_exhaustive] requires Rust 1.40, matches! requires Rust 1.42
 #![allow(
@@ -119,9 +119,7 @@ fn expand(arg: Arg, mut func: Func) -> TokenStream {
             func.to_token_stream()
         }
         Arg::Nightly => {
-            if VERSION.as_ref().map_or(true, |v| !v.nightly) {
-                func.print_const = false;
-            }
+            func.print_const = VERSION.as_ref().map_or(false, |v| v.nightly);
             func.to_token_stream()
         }
     }
@@ -194,8 +192,8 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
 }
 
 struct VersionReq {
-    major: u16,
-    minor: u16,
+    major: u32,
+    minor: u32,
 }
 
 impl FromStr for VersionReq {
@@ -206,12 +204,12 @@ impl FromStr for VersionReq {
         let major = pieces
             .next()
             .ok_or("need to specify the major version")?
-            .parse::<u16>()
+            .parse::<u32>()
             .map_err(|e| e.to_string())?;
         let minor = pieces
             .next()
             .ok_or("need to specify the minor version")?
-            .parse::<u16>()
+            .parse::<u32>()
             .map_err(|e| e.to_string())?;
         if let Some(s) = pieces.next() {
             Err(format!("unexpected input: .{}", s))
@@ -222,7 +220,7 @@ impl FromStr for VersionReq {
 }
 
 struct Version {
-    minor: u16,
+    minor: u32,
     nightly: bool,
 }
 
