@@ -1,3 +1,6 @@
+#![forbid(unsafe_code)]
+#![warn(rust_2018_idioms, single_use_lifetimes)]
+
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -9,8 +12,6 @@ use std::{
 // opening a GitHub issue if your build environment requires some way to enable
 // these cfgs other than by executing our build script.
 fn main() {
-    println!("cargo:rustc-cfg=const_fn_has_build_script");
-
     let rustc = env::var_os("RUSTC").map_or_else(|| "rustc".into(), PathBuf::from);
     let version = match Version::from_rustc(&rustc) {
         Ok(version) => format!("{:#?}\n", version),
@@ -20,44 +21,21 @@ fn main() {
     let out_dir = env::var_os("OUT_DIR").map(PathBuf::from).expect("OUT_DIR not set");
     let out_file = out_dir.join("version.rs");
     fs::write(out_file, version).expect("failed to write version.rs");
+
+    // Mark build script has been run.
+    println!("cargo:rustc-cfg=const_fn_has_build_script");
 }
 
 #[derive(Debug)]
 struct Version {
-    minor: u16,
+    minor: u32,
     nightly: bool,
 }
 
-// Based on https://github.com/cuviper/autocfg/blob/1.0.1/src/version.rs
-//
-// Using our own parser instead of the existing crates to generate better errors.
 impl Version {
-    // from the verbose version output
-    fn from_vv(vv: &str) -> Option<Self> {
-        // Find the release line in the verbose version output.
-        let release = vv
-            .lines()
-            .find(|line| line.starts_with("release: "))
-            .map(|line| &line["release: ".len()..])?;
-
-        // Split the version and channel info.
-        let mut version_channel = release.split('-');
-        let version = version_channel.next().unwrap();
-        let channel = version_channel.next();
-
-        // Split the version into semver components.
-        let mut digits = version.splitn(3, '.');
-        let major = digits.next()?;
-        if major != "1" {
-            return None;
-        }
-        let minor = digits.next()?.parse().ok()?;
-        let _patch: u16 = digits.next().unwrap_or("0").parse().ok()?;
-
-        let nightly = channel.map_or(false, |c| c == "dev" || c == "nightly");
-        Some(Version { minor, nightly })
-    }
-
+    // Based on https://github.com/cuviper/autocfg/blob/1.0.1/src/version.rs#L25-L59
+    //
+    // Using our own parser instead of the existing crates to generate better errors.
     fn from_rustc(rustc: &Path) -> Result<Self, String> {
         let output =
             Command::new(rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
@@ -70,8 +48,40 @@ impl Version {
             format!("failed to parse output of `{} --version --verbose`: {}", rustc.display(), e)
         })?;
 
-        Self::from_vv(output).ok_or_else(|| {
+        // Find the release line in the verbose version output.
+        let release = output
+            .lines()
+            .find(|line| line.starts_with("release: "))
+            .map(|line| &line["release: ".len()..])
+            .ok_or_else(|| {
+                format!(
+                    "could not find rustc release from output of `{} --version --verbose`: {}",
+                    rustc.display(),
+                    output
+                )
+            })?;
+
+        // Split the version and channel info.
+        let mut version_channel = release.split('-');
+        let version = version_channel.next().unwrap();
+        let channel = version_channel.next();
+
+        let minor = (|| {
+            // Split the version into semver components.
+            let mut digits = version.splitn(3, '.');
+            let major = digits.next()?;
+            if major != "1" {
+                return None;
+            }
+            let minor = digits.next()?.parse().ok()?;
+            let _patch = digits.next()?;
+            Some(minor)
+        })()
+        .ok_or_else(|| {
             format!("unexpected output from `{} --version --verbose`: {}", rustc.display(), output)
-        })
+        })?;
+
+        let nightly = channel.map_or(false, |c| c == "dev" || c == "nightly");
+        Ok(Self { minor, nightly })
     }
 }
