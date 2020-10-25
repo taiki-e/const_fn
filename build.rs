@@ -39,10 +39,13 @@ impl Version {
     fn from_rustc(rustc: &Path) -> Result<Self, String> {
         let output =
             Command::new(rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
-                format!("failed to run `{} --version --verbose`: {}", rustc.display(), e)
+                format!("could not execute `{} --version --verbose`: {}", rustc.display(), e)
             })?;
         if !output.status.success() {
-            return Err("could not execute rustc".to_string());
+            return Err(format!(
+                "process didn't exit successfully: `{} --version --verbose`",
+                rustc.display()
+            ));
         }
         let output = str::from_utf8(&output.stdout).map_err(|e| {
             format!("failed to parse output of `{} --version --verbose`: {}", rustc.display(), e)
