@@ -7,4 +7,4 @@ publish = false
 
 [dev-dependencies]
 const_fn = { path = ".." }
-rustversion = "1.0"
+rustversion = "1"

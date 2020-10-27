@@ -22,5 +22,3 @@ members = ["test_suite"]
 
 [lib]
 proc-macro = true
-
-[dependencies]
