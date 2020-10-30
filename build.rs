@@ -35,7 +35,8 @@ struct Version {
 impl Version {
     // Based on https://github.com/cuviper/autocfg/blob/1.0.1/src/version.rs#L25-L59
     //
-    // Using our own parser instead of the existing crates to generate better errors.
+    // TODO: use autocfg if https://github.com/cuviper/autocfg/issues/28 merged
+    // or https://github.com/taiki-e/const_fn/issues/27 rejected.
     fn from_rustc(rustc: &Path) -> Result<Self, String> {
         let output =
             Command::new(rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
