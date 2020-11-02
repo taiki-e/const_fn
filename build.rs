@@ -14,7 +14,7 @@ use std::{
 fn main() {
     let rustc = env::var_os("RUSTC").map_or_else(|| "rustc".into(), PathBuf::from);
     let version = match Version::from_rustc(&rustc) {
-        Ok(version) => format!("{:#?}\n", version),
+        Ok(version) => version.print(),
         Err(e) => panic!("{}", e),
     };
 
@@ -26,7 +26,6 @@ fn main() {
     println!("cargo:rustc-cfg=const_fn_has_build_script");
 }
 
-#[derive(Debug)]
 struct Version {
     minor: u32,
     nightly: bool,
@@ -87,5 +86,9 @@ impl Version {
 
         let nightly = channel.map_or(false, |c| c == "dev" || c == "nightly");
         Ok(Self { minor, nightly })
+    }
+
+    fn print(&self) -> String {
+        format!("Version {{ minor: {}, nightly: {} }}\n", self.minor, self.nightly)
     }
 }
