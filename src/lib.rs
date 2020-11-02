@@ -116,13 +116,13 @@ fn expand(arg: Arg, mut func: Func) -> TokenStream {
             tokens
         }
         Arg::Version(req) => {
-            if req.major > 1 || VERSION.as_ref().map_or(true, |v| req.minor > v.minor) {
+            if req.major > 1 || req.minor > VERSION.minor {
                 func.print_const = false;
             }
             func.to_token_stream()
         }
         Arg::Nightly => {
-            func.print_const = VERSION.as_ref().map_or(false, |v| v.nightly);
+            func.print_const = VERSION.nightly;
             func.to_token_stream()
         }
     }
@@ -228,6 +228,7 @@ struct Version {
 }
 
 #[cfg(const_fn_has_build_script)]
-const VERSION: Option<Version> = Some(include!(concat!(env!("OUT_DIR"), "/version.rs")));
+const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version.rs"));
+// If build script has not run or unable to determine version, it is considered as Rust 1.0.
 #[cfg(not(const_fn_has_build_script))]
-const VERSION: Option<Version> = None;
+const VERSION: Version = Version { minor: 0, nightly: false };
