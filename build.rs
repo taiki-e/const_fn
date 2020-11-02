@@ -15,14 +15,21 @@ fn main() {
     let rustc = env::var_os("RUSTC").map_or_else(|| "rustc".into(), PathBuf::from);
     let version = match Version::from_rustc(&rustc) {
         Ok(version) => version.print(),
-        Err(e) => panic!("{}", e),
+        Err(e) => {
+            println!(
+                "cargo:warning={}: unable to determine rustc version: {}",
+                env!("CARGO_PKG_NAME"),
+                e
+            );
+            return;
+        }
     };
 
     let out_dir = env::var_os("OUT_DIR").map(PathBuf::from).expect("OUT_DIR not set");
     let out_file = out_dir.join("version.rs");
     fs::write(out_file, version).expect("failed to write version.rs");
 
-    // Mark build script has been run.
+    // Mark as build script has been run successfully.
     println!("cargo:rustc-cfg=const_fn_has_build_script");
 }
 

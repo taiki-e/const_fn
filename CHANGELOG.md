@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+* `const_fn` no longer fails to compile if unable to determine rustc version. Instead, it now displays a warning.
+
+* [`const_fn` no longer relies on debug print format.](https://github.com/taiki-e/const_fn/pull/30)
+
 ## [0.4.2] - 2020-08-31
 
 * [Improve error messages when failed to parse version information.](https://github.com/taiki-e/const_fn/pull/26)
