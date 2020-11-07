@@ -73,7 +73,7 @@ pub mod cfg {
 
     // min_const_fn (1.31+)
 
-    #[const_fn(cfg(has_min_const_fn))]
+    #[const_fn(cfg(rustc_1_31))]
     const fn const_min<T>(x: T) -> T {
         x
     }
@@ -82,7 +82,7 @@ pub mod cfg {
     // const_let (1.33+)
 
     #[allow(clippy::let_and_return)]
-    #[const_fn(cfg(has_const_let))]
+    #[const_fn(cfg(rustc_1_33))]
     const fn const_let<T>(x: T) -> T {
         let y = const_min(x);
         y
@@ -92,7 +92,7 @@ pub mod cfg {
 
     // const_vec_new (1.39+)
 
-    #[const_fn(cfg(has_const_vec_new))]
+    #[const_fn(cfg(rustc_1_39))]
     const fn const_vec_new<T>() -> Vec<T> {
         Vec::new()
     }
@@ -101,7 +101,7 @@ pub mod cfg {
 
     // const_match, const_loop (1.46+)
 
-    #[const_fn(cfg(has_const_match))]
+    #[const_fn(cfg(rustc_1_46))]
     const fn const_match(x: u8) -> Option<u8> {
         match x {
             0 => None,
