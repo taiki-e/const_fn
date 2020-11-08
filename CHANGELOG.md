@@ -86,7 +86,9 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 * Revert 0.1.4
 
-## [0.1.4] - 2019-02-15 - YANKED
+## [0.1.4] - 2019-02-15
+
+**Note: This release has been yanked.**
 
 * Reduce compilation time
 
