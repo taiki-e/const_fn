@@ -26,7 +26,7 @@ fn main() {
     };
 
     let out_dir = env::var_os("OUT_DIR").map(PathBuf::from).expect("OUT_DIR not set");
-    let out_file = out_dir.join("version.rs");
+    let out_file = out_dir.join("version");
     fs::write(out_file, version).expect("failed to write version.rs");
 
     // Mark as build script has been run successfully.

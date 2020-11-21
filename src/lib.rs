@@ -81,6 +81,7 @@ use crate::{
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// An attribute for easy generation of const functions with conditional compilations.
+///
 /// See crate level documentation for details.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
@@ -227,7 +228,7 @@ struct Version {
 }
 
 #[cfg(const_fn_has_build_script)]
-const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version.rs"));
+const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version"));
 // If build script has not run or unable to determine version, it is considered as Rust 1.0.
 #[cfg(not(const_fn_has_build_script))]
 const VERSION: Version = Version { minor: 0, nightly: false };
