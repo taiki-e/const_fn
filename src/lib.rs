@@ -1,4 +1,5 @@
-//! An attribute for easy generation of const functions with conditional compilations.
+//! An attribute for easy generation of const functions with conditional
+//! compilations.
 //!
 //! # Examples
 //!
