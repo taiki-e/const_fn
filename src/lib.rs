@@ -119,6 +119,7 @@ fn expand(arg: Arg, mut func: Func) -> TokenStream {
             func.print_const = VERSION.nightly;
             func.to_token_stream()
         }
+        Arg::Always => func.to_token_stream(),
     }
 }
 
@@ -131,6 +132,8 @@ enum Arg {
     Cfg(TokenStream),
     // `const_fn(feature = "...")`
     Feature(TokenStream),
+    // `const_fn`
+    Always,
 }
 
 fn parse_arg(tokens: TokenStream) -> Result<Arg> {
@@ -139,6 +142,7 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
     let next = iter.next();
     let next_span = tt_span(next.as_ref());
     match next {
+        None => return Ok(Arg::Always),
         Some(TokenTree::Ident(i)) => match &*i.to_string() {
             "nightly" => {
                 parse_as_empty(iter)?;
@@ -182,7 +186,7 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                 };
             }
         }
-        _ => {}
+        Some(_) => {}
     }
 
     Err(error!(next_span, "expected one of: `nightly`, `cfg`, `feature`, string literal"))
