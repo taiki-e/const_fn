@@ -6,6 +6,16 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+* Accept `const_fn` attribute with no arguments and functions without `const` keyword.
+  This allows `const_fn` to be used as an optional dependency.
+
+  ```rust
+  #[cfg_attr(feature = "...", const_fn::const_fn)]
+  pub fn func() {
+      /* ... */
+  }
+  ```
+
 ## [0.4.3] - 2020-11-02
 
 * [`const_fn` no longer fails to compile if unable to determine rustc version. Instead, it now displays a warning.](https://github.com/taiki-e/const_fn/pull/31)

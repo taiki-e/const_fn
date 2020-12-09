@@ -1,4 +1,4 @@
-use proc_macro::{Delimiter, Literal, Span, TokenStream, TokenTree};
+use proc_macro::{Delimiter, Ident, Literal, Span, TokenStream, TokenTree};
 
 use crate::{
     iter::TokenIter,
@@ -32,17 +32,6 @@ pub(crate) fn parse_input(input: TokenStream) -> Result<Func> {
             "#[const_fn] attribute may only be used on functions"
         ));
     }
-    if !sig
-        .iter()
-        .any(|tt| if let TokenTree::Ident(i) = tt { i.to_string() == "const" } else { false })
-    {
-        let span = sig
-            .iter()
-            .position(|tt| if let TokenTree::Ident(i) = tt { i.to_string() == "fn" } else { false })
-            .map(|i| sig[i].span())
-            .unwrap();
-        return Err(error!(span, "#[const_fn] attribute may only be used on const functions"));
-    }
 
     Ok(Func { attrs, sig, body: body.unwrap(), print_const: true })
 }
@@ -66,10 +55,22 @@ impl ToTokens for Func {
 
 fn parse_signature(input: &mut TokenIter) -> Vec<TokenTree> {
     let mut sig = Vec::new();
+    let mut has_const = false;
     loop {
         match input.peek() {
             Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Brace => break,
             None => break,
+            Some(TokenTree::Ident(i)) if !has_const => {
+                match &*i.to_string() {
+                    "const" => has_const = true,
+                    "async" | "unsafe" | "extern" | "fn" => {
+                        sig.push(TokenTree::Ident(Ident::new("const", i.span())));
+                        has_const = true;
+                    }
+                    _ => {}
+                }
+                sig.push(input.next().unwrap());
+            }
             Some(_) => sig.push(input.next().unwrap()),
         }
     }

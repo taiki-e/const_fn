@@ -1,5 +1,76 @@
-#![cfg_attr(const_unstable, feature(const_fn))]
+#![cfg_attr(const_unstable, feature(const_fn, const_extern_fn))]
 #![warn(rust_2018_idioms, single_use_lifetimes)]
+#![allow(clippy::missing_safety_doc)] // this is test
+
+pub mod syntax {
+    #![allow(dead_code)]
+
+    use const_fn::const_fn;
+
+    // const
+    #[const_fn]
+    fn const_non_const() {}
+    #[const_fn]
+    pub fn const_non_const_pub() {}
+    #[const_fn]
+    const fn const_const() {}
+    #[const_fn]
+    pub const fn const_const_pub() {}
+    const _: () = const_non_const();
+    const _: () = const_non_const_pub();
+    const _: () = const_const();
+    const _: () = const_const_pub();
+
+    // const unsafe
+    #[const_fn]
+    unsafe fn const_unsafe_non_const() {}
+    #[const_fn]
+    pub unsafe fn const_unsafe_non_const_pub() {}
+    #[const_fn]
+    const unsafe fn const_unsafe_const() {}
+    #[const_fn]
+    pub const unsafe fn const_unsafe_const_pub() {}
+    const _: () = unsafe { const_unsafe_non_const() };
+    const _: () = unsafe { const_unsafe_non_const_pub() };
+    const _: () = unsafe { const_unsafe_const() };
+    const _: () = unsafe { const_unsafe_const_pub() };
+
+    // const extern
+    #[const_fn(cfg(const_unstable))]
+    extern "C" fn const_extern_non_const() {}
+    #[const_fn(cfg(const_unstable))]
+    pub extern "C" fn const_extern_non_const_pub() {}
+    #[const_fn(cfg(const_unstable))]
+    const extern "C" fn const_extern_const() {}
+    #[const_fn(cfg(const_unstable))]
+    pub const extern "C" fn const_extern_const_pub() {}
+    #[cfg(const_unstable)]
+    const _: () = const_extern_non_const();
+    #[cfg(const_unstable)]
+    const _: () = const_extern_non_const_pub();
+    #[cfg(const_unstable)]
+    const _: () = const_extern_const();
+    #[cfg(const_unstable)]
+    const _: () = const_extern_const_pub();
+
+    // const unsafe extern
+    #[const_fn(cfg(const_unstable))]
+    unsafe extern "C" fn const_unsafe_extern_non_const() {}
+    #[const_fn(cfg(const_unstable))]
+    pub unsafe extern "C" fn const_unsafe_extern_non_const_pub() {}
+    #[const_fn(cfg(const_unstable))]
+    const unsafe extern "C" fn const_unsafe_extern_const() {}
+    #[const_fn(cfg(const_unstable))]
+    pub const unsafe extern "C" fn const_unsafe_extern_const_pub() {}
+    #[cfg(const_unstable)]
+    const _: () = unsafe { const_unsafe_extern_non_const() };
+    #[cfg(const_unstable)]
+    const _: () = unsafe { const_unsafe_extern_non_const_pub() };
+    #[cfg(const_unstable)]
+    const _: () = unsafe { const_unsafe_extern_const() };
+    #[cfg(const_unstable)]
+    const _: () = unsafe { const_unsafe_extern_const_pub() };
+}
 
 pub mod version {
     use const_fn::const_fn;
