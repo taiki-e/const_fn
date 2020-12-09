@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org).
 
 ## [0.4.4] - 2020-11-02
 
-* Accept `const_fn` attribute with no arguments and functions without `const` keyword.
+* [Accept `const_fn` attribute with no arguments and functions without `const` keyword.](https://github.com/taiki-e/const_fn/pull/34)
   This allows `const_fn` to be used as an optional dependency.
 
   ```rust
