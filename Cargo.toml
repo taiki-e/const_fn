@@ -9,6 +9,7 @@ documentation = "https://docs.rs/const_fn"
 keywords = ["macros", "attribute", "const", "static"]
 categories = ["rust-patterns", "no-std"]
 readme = "README.md"
+exclude = ["/.github", "/scripts"]
 description = """
 An attribute for easy generation of const functions with conditional compilations.
 """
