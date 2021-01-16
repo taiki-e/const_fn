@@ -8,7 +8,7 @@ repository = "https://github.com/taiki-e/const_fn"
 documentation = "https://docs.rs/const_fn"
 keywords = ["macros", "attribute", "const", "static"]
 categories = ["rust-patterns", "no-std"]
-exclude = ["/.github", "/scripts"]
+exclude = ["/.*", "/scripts"]
 description = """
 An attribute for easy generation of const functions with conditional compilations.
 """
