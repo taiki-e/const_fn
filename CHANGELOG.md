@@ -10,6 +10,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+- Fix compatibility issues with const generics.
+
 ## [0.4.5] - 2021-01-05
 
 - Exclude unneeded files from crates.io.

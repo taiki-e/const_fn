@@ -2,7 +2,7 @@
 #![warn(rust_2018_idioms, single_use_lifetimes)]
 #![allow(clippy::missing_safety_doc)] // this is test
 
-pub mod syntax {
+pub mod signature {
     #![allow(dead_code)]
 
     use const_fn::const_fn;
@@ -70,6 +70,41 @@ pub mod syntax {
     const _: () = unsafe { const_unsafe_extern_const() };
     #[cfg(const_unstable)]
     const _: () = unsafe { const_unsafe_extern_const_pub() };
+
+    // const async unsafe extern
+    // functions cannot be both `const` and `async`, but rustc syntactically accepts this.
+    #[const_fn(cfg(FALSE))]
+    async unsafe extern "C" fn const_async_unsafe_extern_non_const() {}
+    #[const_fn(cfg(FALSE))]
+    pub async unsafe extern "C" fn const_async_unsafe_extern_non_const_pub() {}
+    #[const_fn(cfg(FALSE))]
+    const async unsafe extern "C" fn const_async_unsafe_extern_const() {}
+    #[const_fn(cfg(FALSE))]
+    pub const async unsafe extern "C" fn const_async_unsafe_extern_const_pub() {}
+}
+
+pub mod min_const_generics {
+    #![allow(dead_code, unused_braces)]
+
+    use const_fn::const_fn;
+
+    struct S1<const C1: usize, const C2: usize>([(); C1], [(); C2]);
+    trait T1 {
+        type A1;
+    }
+
+    #[const_fn]
+    const fn const_generics1() -> [(); { 1 + 1 }] {
+        [(); 2]
+    }
+    #[const_fn]
+    const fn const_generics2() -> S1<1, { 2 + 1 }> {
+        S1([(); 1], [(); 3])
+    }
+    #[const_fn]
+    const fn const_generics3<T: T1<A1 = S1<1, { 2 + 1 }>>, const C: usize>() -> S1<C, { C }> {
+        S1([(); C], [(); C])
+    }
 }
 
 pub mod version {
