@@ -101,8 +101,8 @@ pub mod min_const_generics {
     const fn const_generics2() -> S1<1, { 2 + 1 }> {
         S1([(); 1], [(); 3])
     }
-    #[const_fn]
-    const fn const_generics3<T: T1<A1 = S1<1, { 2 + 1 }>>, const C: usize>() -> S1<C, { C }> {
+    #[const_fn(cfg(const_unstable))]
+    const fn const_generics4<T: T1<A1 = S1<1, { 2 + 1 }>>, const C: usize>() -> S1<C, { C }> {
         S1([(); C], [(); C])
     }
 }
