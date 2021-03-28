@@ -25,7 +25,7 @@ const_fn = "0.4"
 ```rust
 use const_fn::const_fn;
 
-// function is `const` on specified version and later compiler (including beta and nightly)
+// function is `const` on specified version and later compiler (including beta, nightly, and dev build)
 #[const_fn("1.36")]
 pub const fn version() {
     /* ... */
@@ -46,6 +46,20 @@ pub const fn cfg() {
 // function is `const` if `cfg(feature = "...")` is true
 #[const_fn(feature = "...")]
 pub const fn feature() {
+    /* ... */
+}
+```
+
+### Use this crate as an optional dependency
+
+If no arguments are passed, `consf_fn` will always make the function `const`.
+
+Therefore, you can use `const_fn` as an optional dependency by combination with `cfg_attr`.
+
+```rust
+// function is `const` if `cfg(feature = "...")` is true
+#[cfg_attr(feature = "...", const_fn::const_fn)]
+pub fn optional() {
     /* ... */
 }
 ```
