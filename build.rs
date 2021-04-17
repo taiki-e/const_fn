@@ -30,6 +30,10 @@ fn main() {
     fs::write(out_file, version)
         .unwrap_or_else(|e| panic!("failed to write {}: {}", out_file.display(), e));
 
+    if assume_incomplete_release() {
+        println!("cargo:rustc-cfg=const_fn_assume_incomplete_release");
+    }
+
     // Mark as build script has been run successfully.
     println!("cargo:rustc-cfg=const_fn_has_build_script");
 }
@@ -99,4 +103,27 @@ impl Version {
     fn print(&self) -> String {
         format!("Version {{ minor: {}, nightly: {} }}\n", self.minor, self.nightly)
     }
+}
+
+// https://github.com/rust-lang/rust/pull/81468
+// https://github.com/taiki-e/const_fn/issues/27
+fn assume_incomplete_release() -> bool {
+    // Recognized formats:
+    //
+    //     -Z assume-incomplete-release
+    //
+    //     -Zassume-incomplete-release
+
+    if let Some(rustflags) = env::var_os("RUSTFLAGS") {
+        for mut flag in rustflags.to_string_lossy().split(' ') {
+            if flag.starts_with("-Z") {
+                flag = &flag["-Z".len()..];
+            }
+            if flag == "assume-incomplete-release" {
+                return true;
+            }
+        }
+    }
+
+    false
 }
