@@ -64,6 +64,12 @@ pub fn optional() {
 }
 ```
 
+<!--
+TODO: document the behavior on the version on the nightly channel.
+      https://github.com/taiki-e/const_fn/issues/27
+      https://github.com/rust-lang/rust/pull/81468
+-->
+
 ## Alternatives
 
 This crate is proc-macro, but is very lightweight, and has no dependencies.

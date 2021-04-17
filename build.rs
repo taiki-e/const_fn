@@ -44,10 +44,8 @@ struct Version {
 }
 
 impl Version {
-    // Based on https://github.com/cuviper/autocfg/blob/1.0.1/src/version.rs#L25-L59
-    //
-    // TODO: use autocfg if https://github.com/cuviper/autocfg/issues/28 merged
-    // or https://github.com/taiki-e/const_fn/issues/27 rejected.
+    // The version detection logic is based on https://github.com/cuviper/autocfg/blob/1.0.1/src/version.rs#L25-L59,
+    // but provides a better error message.
     fn from_rustc(rustc: &Path) -> Result<Self, String> {
         let output =
             Command::new(rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
@@ -105,8 +103,8 @@ impl Version {
     }
 }
 
-// https://github.com/rust-lang/rust/pull/81468
 // https://github.com/taiki-e/const_fn/issues/27
+// https://github.com/rust-lang/rust/pull/81468
 fn assume_incomplete_release() -> bool {
     // Recognized formats:
     //
