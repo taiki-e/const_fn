@@ -84,6 +84,7 @@ use proc_macro::{Delimiter, TokenStream, TokenTree};
 use crate::{
     ast::{Func, LitStr},
     error::Error,
+    iter::TokenIter,
     to_tokens::ToTokens,
     utils::{cfg_attrs, parse_as_empty, tt_span},
 };
@@ -155,7 +156,7 @@ enum Arg {
 }
 
 fn parse_arg(tokens: TokenStream) -> Result<Arg> {
-    let mut iter = tokens.into_iter();
+    let mut iter = TokenIter::new(tokens);
 
     let next = iter.next();
     let next_span = tt_span(next.as_ref());

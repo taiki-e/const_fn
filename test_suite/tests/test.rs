@@ -240,3 +240,21 @@ pub mod cfg {
         assert_eq!(A::const_unstable(const_vec_new::<u8>()), A(Vec::new()));
     }
 }
+
+pub mod macros {
+    #![allow(dead_code)]
+
+    use const_fn::const_fn;
+
+    macro_rules! args {
+        ($args:expr) => {
+            #[const_fn($args)]
+            const fn args<T>(x: T) -> T {
+                x
+            }
+        };
+    }
+
+    args!("1.31");
+    const _: () = args(());
+}

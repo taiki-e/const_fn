@@ -10,6 +10,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+- [Fix parsing of macro metavariable in attribute arguments.](https://github.com/taiki-e/const_fn/pull/37)
+
 ## [0.4.7] - 2021-04-17
 
 - [Support compiling with `RUSTFLAGS='-Z assume-incomplete-release'` on nightly compiler.](https://github.com/taiki-e/const_fn/pull/35)
