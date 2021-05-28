@@ -1,6 +1,6 @@
 #![cfg_attr(const_unstable, feature(const_extern_fn, const_fn_trait_bound))]
 #![warn(rust_2018_idioms, single_use_lifetimes)]
-#![allow(clippy::missing_safety_doc)] // this is test
+#![allow(clippy::missing_safety_doc, clippy::unused_async)] // this is test
 
 pub mod signature {
     #![allow(dead_code)]
