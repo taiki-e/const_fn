@@ -4,12 +4,18 @@ use proc_macro::{Delimiter, Group, Ident, Punct, Spacing, Span, TokenStream, Tok
 
 use crate::Result;
 
-macro_rules! error {
-    ($span:expr, $msg:expr) => {{
+macro_rules! format_err {
+    ($span:expr, $msg:expr) => {
         crate::error::Error::new($span, $msg)
-    }};
+    };
     ($span:expr, $($tt:tt)*) => {
-        error!($span, format!($($tt)*))
+        format_err!($span, format!($($tt)*))
+    };
+}
+
+macro_rules! bail {
+    ($($tt:tt)*) => {
+        return Err(format_err!($($tt)*))
     };
 }
 
@@ -19,7 +25,7 @@ pub(crate) fn tt_span(tt: Option<&TokenTree>) -> Span {
 
 pub(crate) fn parse_as_empty(mut tokens: impl Iterator<Item = TokenTree>) -> Result<()> {
     match tokens.next() {
-        Some(tt) => Err(error!(tt.span(), "unexpected token `{}`", tt)),
+        Some(tt) => bail!(tt.span(), "unexpected token `{}`", tt),
         None => Ok(()),
     }
 }

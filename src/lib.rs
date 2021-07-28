@@ -82,7 +82,7 @@ use std::str::FromStr;
 use proc_macro::{Delimiter, TokenStream, TokenTree};
 
 use crate::{
-    ast::{Func, LitStr},
+    ast::LitStr,
     error::Error,
     iter::TokenIter,
     to_tokens::ToTokens,
@@ -96,20 +96,13 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// See crate level documentation for details.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
-    let arg = match parse_arg(args) {
-        Ok(arg) => arg,
-        Err(e) => return e.to_compile_error(),
-    };
-    let func = match ast::parse_input(input) {
-        Ok(func) => func,
-        Err(e) => return e.to_compile_error(),
-    };
-
-    expand(arg, func)
+    expand(args, input).unwrap_or_else(Error::into_compile_error)
 }
 
-fn expand(arg: Arg, mut func: Func) -> TokenStream {
-    match arg {
+fn expand(args: TokenStream, input: TokenStream) -> Result<TokenStream> {
+    let arg = parse_arg(args)?;
+    let mut func = ast::parse_input(input)?;
+    Ok(match arg {
         Arg::Cfg(cfg) => {
             let (mut tokens, cfg_not) = cfg_attrs(cfg);
             tokens.extend(func.to_token_stream());
@@ -139,7 +132,7 @@ fn expand(arg: Arg, mut func: Func) -> TokenStream {
             func.to_token_stream()
         }
         Arg::Always => func.to_token_stream(),
-    }
+    })
 }
 
 enum Arg {
@@ -156,7 +149,7 @@ enum Arg {
 }
 
 fn parse_arg(tokens: TokenStream) -> Result<Arg> {
-    let mut iter = TokenIter::new(tokens);
+    let iter = &mut TokenIter::new(tokens);
 
     let next = iter.next();
     let next_span = tt_span(next.as_ref());
@@ -173,7 +166,7 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                         parse_as_empty(iter)?;
                         Ok(Arg::Cfg(g.stream()))
                     }
-                    tt => Err(error!(tt_span(tt), "expected `(`")),
+                    tt => bail!(tt_span(tt), "expected `(`"),
                 };
             }
             "feature" => {
@@ -189,9 +182,9 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                                     .collect(),
                             ))
                         }
-                        tt => Err(error!(tt_span(tt.as_ref()), "expected string literal")),
+                        tt => bail!(tt_span(tt.as_ref()), "expected string literal"),
                     },
-                    tt => Err(error!(tt_span(tt), "expected `=`")),
+                    tt => bail!(tt_span(tt), "expected `=`"),
                 };
             }
             _ => {}
@@ -201,14 +194,14 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                 parse_as_empty(iter)?;
                 return match l.value().parse::<VersionReq>() {
                     Ok(req) => Ok(Arg::Version(req)),
-                    Err(e) => Err(error!(l.span(), "{}", e)),
+                    Err(e) => bail!(l.span(), "{}", e),
                 };
             }
         }
         Some(_) => {}
     }
 
-    Err(error!(next_span, "expected one of: `nightly`, `cfg`, `feature`, string literal"))
+    bail!(next_span, "expected one of: `nightly`, `cfg`, `feature`, string literal")
 }
 
 struct VersionReq {

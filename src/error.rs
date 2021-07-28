@@ -13,7 +13,7 @@ impl Error {
     }
 
     // https://github.com/dtolnay/syn/blob/1.0.39/src/error.rs#L218-L237
-    pub(crate) fn to_compile_error(&self) -> TokenStream {
+    pub(crate) fn into_compile_error(self) -> TokenStream {
         // compile_error!($msg)
         TokenStream::from_iter(vec![
             TokenTree::Ident(Ident::new("compile_error", self.span)),
