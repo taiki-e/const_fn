@@ -2,7 +2,7 @@ use std::iter::FromIterator;
 
 use proc_macro::{Delimiter, Group, Ident, Punct, Spacing, Span, TokenStream, TokenTree};
 
-use crate::Result;
+use crate::{iter::TokenIter, Result};
 
 macro_rules! format_err {
     ($span:expr, $msg:expr) => {
@@ -23,7 +23,7 @@ pub(crate) fn tt_span(tt: Option<&TokenTree>) -> Span {
     tt.map_or_else(Span::call_site, TokenTree::span)
 }
 
-pub(crate) fn parse_as_empty(mut tokens: impl Iterator<Item = TokenTree>) -> Result<()> {
+pub(crate) fn parse_as_empty(tokens: &mut TokenIter) -> Result<()> {
     match tokens.next() {
         Some(tt) => bail!(tt.span(), "unexpected token `{}`", tt),
         None => Ok(()),
