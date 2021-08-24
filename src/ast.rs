@@ -135,9 +135,3 @@ impl LitStr {
         self.token.span()
     }
 }
-
-impl ToTokens for LitStr {
-    fn to_tokens(&self, tokens: &mut TokenStream) {
-        self.token.to_tokens(tokens);
-    }
-}
