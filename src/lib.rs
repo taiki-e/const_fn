@@ -70,12 +70,12 @@
 extern crate proc_macro;
 
 #[macro_use]
-mod utils;
+mod error;
 
 mod ast;
-mod error;
 mod iter;
 mod to_tokens;
+mod utils;
 
 use std::str::FromStr;
 
@@ -83,13 +83,11 @@ use proc_macro::{Delimiter, TokenStream, TokenTree};
 
 use crate::{
     ast::LitStr,
-    error::Error,
+    error::{Error, Result},
     iter::TokenIter,
     to_tokens::ToTokens,
     utils::{cfg_attrs, parse_as_empty, tt_span},
 };
-
-type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// An attribute for easy generation of const functions with conditional compilations.
 ///

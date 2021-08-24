@@ -4,28 +4,13 @@ use proc_macro::{Delimiter, Group, Ident, Punct, Spacing, Span, TokenStream, Tok
 
 use crate::{iter::TokenIter, Result};
 
-macro_rules! format_err {
-    ($span:expr, $msg:expr) => {
-        crate::error::Error::new($span, $msg)
-    };
-    ($span:expr, $($tt:tt)*) => {
-        format_err!($span, format!($($tt)*))
-    };
-}
-
-macro_rules! bail {
-    ($($tt:tt)*) => {
-        return Err(format_err!($($tt)*))
-    };
-}
-
 pub(crate) fn tt_span(tt: Option<&TokenTree>) -> Span {
     tt.map_or_else(Span::call_site, TokenTree::span)
 }
 
 pub(crate) fn parse_as_empty(tokens: &mut TokenIter) -> Result<()> {
     match tokens.next() {
-        Some(tt) => bail!(tt.span(), "unexpected token `{}`", tt),
+        Some(tt) => bail!(tt.span(), "unexpected token: `{}`", tt),
         None => Ok(()),
     }
 }
