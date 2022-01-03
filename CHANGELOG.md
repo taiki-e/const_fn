@@ -10,6 +10,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+## [0.4.9] - 2022-01-03
+
 - Fix detection of `-Z assume-incomplete-release` in recent nightly compilers.
 
 ## [0.4.8] - 2021-05-19
@@ -142,7 +144,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.8...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.9...HEAD
+[0.4.9]: https://github.com/taiki-e/const_fn/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/taiki-e/const_fn/compare/v0.4.7...v0.4.8
 [0.4.7]: https://github.com/taiki-e/const_fn/compare/v0.4.6...v0.4.7
 [0.4.6]: https://github.com/taiki-e/const_fn/compare/v0.4.5...v0.4.6
