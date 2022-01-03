@@ -10,6 +10,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+- Fix detection of `-Z assume-incomplete-release` in recent nightly compilers.
+
 ## [0.4.8] - 2021-05-19
 
 - [Fix parsing of macro metavariable in attribute arguments.](https://github.com/taiki-e/const_fn/pull/37)
@@ -120,7 +122,7 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [0.1.4] - 2019-02-15
 
-**Note: This release has been yanked.**
+**NOTE:** This release has been yanked.
 
 - Reduce compilation time
 
