@@ -12,7 +12,7 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [0.4.9] - 2022-01-03
 
-- Fix detection of `-Z assume-incomplete-release` in recent nightly compilers.
+- [Fix detection of `-Z assume-incomplete-release` in recent nightly compilers.](https://github.com/taiki-e/const_fn/pull/39)
 
 ## [0.4.8] - 2021-05-19
 
