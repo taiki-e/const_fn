@@ -1,3 +1,5 @@
+// The rustc-cfg emitted by the build script are *not* public API.
+
 #![warn(rust_2018_idioms, single_use_lifetimes)]
 
 use std::{
@@ -7,9 +9,6 @@ use std::{
     str,
 };
 
-// The rustc-cfg strings below are *not* public API. Please let us know by
-// opening a GitHub issue if your build environment requires some way to enable
-// these cfgs other than by executing our build script.
 fn main() {
     let rustc: PathBuf = env::var_os("RUSTC").unwrap_or_else(|| "rustc".into()).into();
     let version = match Version::from_rustc(&rustc) {
