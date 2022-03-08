@@ -8,6 +8,7 @@ fn main() {
     cfg.emit_rustc_version(1, 33);
     cfg.emit_rustc_version(1, 39);
     cfg.emit_rustc_version(1, 46);
+    cfg.emit_rustc_version(1, 61);
 
     if is_nightly() {
         println!("cargo:rustc-cfg=const_unstable");

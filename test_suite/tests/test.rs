@@ -1,4 +1,4 @@
-#![cfg_attr(const_unstable, feature(const_extern_fn, const_fn_trait_bound))]
+#![cfg_attr(const_unstable, feature(const_extern_fn))]
 #![warn(rust_2018_idioms, single_use_lifetimes)]
 #![allow(clippy::missing_safety_doc, clippy::unused_async)] // this is test
 
@@ -101,7 +101,7 @@ pub mod min_const_generics {
     const fn const_generics2() -> S1<1, { 2 + 1 }> {
         S1([(); 1], [(); 3])
     }
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.61")]
     const fn const_generics4<T: T1<A1 = S1<1, { 2 + 1 }>>, const C: usize>() -> S1<C, { C }> {
         S1([(); C], [(); C])
     }
@@ -150,19 +150,19 @@ pub mod version {
     #[rustversion::since(1.46)]
     const _: Option<u8> = const_match(1);
 
-    // const_fn (nightly)
+    // const_fn_trait_bound (1.61+)
 
     #[derive(Debug, Eq, PartialEq)]
     pub struct A<T>(T);
 
     impl<T: IntoIterator> A<T> {
-        #[const_fn(nightly)]
-        const fn const_unstable(x: T) -> Self {
+        #[const_fn("1.61")]
+        const fn const_fn_trait_bound(x: T) -> Self {
             A(x)
         }
     }
-    #[rustversion::nightly]
-    const _: A<Vec<u8>> = A::const_unstable(const_vec_new());
+    #[rustversion::since(1.61)]
+    const _: A<Vec<u8>> = A::const_fn_trait_bound(const_vec_new());
 
     #[test]
     fn test() {
@@ -170,7 +170,7 @@ pub mod version {
         assert_eq!(const_let("variables"), "variables");
         assert_eq!(const_vec_new::<u8>(), Vec::new());
         assert_eq!(const_match(1), Some(1));
-        assert_eq!(A::const_unstable(const_vec_new::<u8>()), A(Vec::new()));
+        assert_eq!(A::const_fn_trait_bound(const_vec_new::<u8>()), A(Vec::new()));
     }
 }
 
@@ -217,19 +217,19 @@ pub mod cfg {
     #[rustversion::since(1.46)]
     const _: Option<u8> = const_match(1);
 
-    // const_fn (nightly)
+    // const_fn_trait_bound (1.61+)
 
     #[derive(Debug, Eq, PartialEq)]
     pub struct A<T>(T);
 
     impl<T: IntoIterator> A<T> {
-        #[const_fn(cfg(const_unstable))]
-        const fn const_unstable(x: T) -> Self {
+        #[const_fn(cfg(rustc_1_61))]
+        const fn const_fn_trait_bound(x: T) -> Self {
             A(x)
         }
     }
-    #[rustversion::nightly]
-    const _: A<Vec<u8>> = A::const_unstable(const_vec_new());
+    #[rustversion::since(1.61)]
+    const _: A<Vec<u8>> = A::const_fn_trait_bound(const_vec_new());
 
     #[test]
     fn test() {
@@ -237,7 +237,7 @@ pub mod cfg {
         assert_eq!(const_let("variables"), "variables");
         assert_eq!(const_vec_new::<u8>(), Vec::new());
         assert_eq!(const_match(1), Some(1));
-        assert_eq!(A::const_unstable(const_vec_new::<u8>()), A(Vec::new()));
+        assert_eq!(A::const_fn_trait_bound(const_vec_new::<u8>()), A(Vec::new()));
     }
 }
 
