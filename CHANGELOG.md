@@ -124,7 +124,7 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [0.1.4] - 2019-02-15
 
-**NOTE:** This release has been yanked.
+**Note:** This release has been yanked.
 
 - Reduce compilation time
 
