@@ -1,7 +1,7 @@
 # \#\[const_fn\]
 
 [![crates.io](https://img.shields.io/crates/v/const_fn?style=flat-square&logo=rust)](https://crates.io/crates/const_fn)
-[![docs.rs](https://img.shields.io/badge/docs.rs-const__fn-blue?style=flat-square)](https://docs.rs/const_fn)
+[![docs.rs](https://img.shields.io/badge/docs.rs-const__fn-blue?style=flat-square&logo=docs.rs)](https://docs.rs/const_fn)
 [![license](https://img.shields.io/badge/license-Apache--2.0_OR_MIT-blue?style=flat-square)](#license)
 [![rustc](https://img.shields.io/badge/rustc-1.31+-blue?style=flat-square&logo=rust)](https://www.rust-lang.org)
 [![build status](https://img.shields.io/github/workflow/status/taiki-e/const_fn/CI/main?style=flat-square&logo=github)](https://github.com/taiki-e/const_fn/actions)
