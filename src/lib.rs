@@ -63,7 +63,8 @@
 ))]
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, single_use_lifetimes, unreachable_pub)]
-#![warn(clippy::default_trait_access, clippy::wildcard_imports)]
+#![warn(clippy::pedantic)]
+#![allow(clippy::cast_lossless)]
 
 // older compilers require explicit `extern crate`.
 #[allow(unused_extern_crates)]
