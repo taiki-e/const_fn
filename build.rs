@@ -10,6 +10,7 @@ use std::{
 };
 
 fn main() {
+    // TODO: do not fallback to "rustc"
     let rustc: PathBuf = env::var_os("RUSTC").unwrap_or_else(|| "rustc".into()).into();
     let version = match Version::from_rustc(&rustc) {
         Ok(version) => version.print(),
