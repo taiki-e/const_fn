@@ -52,7 +52,7 @@ pub const fn feature() {
 
 ### Use this crate as an optional dependency
 
-If no arguments are passed, `consf_fn` will always make the function `const`.
+If no arguments are passed, `const_fn` will always make the function `const`.
 
 Therefore, you can use `const_fn` as an optional dependency by combination with `cfg_attr`.
 
