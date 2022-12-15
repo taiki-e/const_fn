@@ -3,6 +3,8 @@
 use std::{env, process::Command};
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
+
     let cfg = autocfg::new();
     cfg.emit_rustc_version(1, 31);
     cfg.emit_rustc_version(1, 33);
