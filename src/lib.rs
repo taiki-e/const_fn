@@ -2,7 +2,7 @@
 An attribute for easy generation of const functions with conditional
 compilations.
 
-# Examples
+## Examples
 
 ```rust
 use const_fn::const_fn;
@@ -34,7 +34,7 @@ pub const fn feature() {
 }
 ```
 
-## Use this crate as an optional dependency
+### Use this crate as an optional dependency
 
 If no arguments are passed, `const_fn` will always make the function `const`.
 
@@ -48,12 +48,22 @@ pub fn optional() {
 }
 ```
 
-# Alternatives
+<!--
+TODO: document the behavior on the version on the nightly channel.
+      https://github.com/taiki-e/const_fn/issues/27
+      https://github.com/rust-lang/rust/pull/81468
+-->
+
+## Alternatives
 
 This crate is proc-macro, but is very lightweight, and has no dependencies.
 
-You can manually define declarative macros with similar functionality (see [`if_rust_version`](https://github.com/ogoffart/if_rust_version#examples)), or [you can define the same function twice with different cfg](https://github.com/crossbeam-rs/crossbeam/blob/0b6ea5f69fde8768c1cfac0d3601e0b4325d7997/crossbeam-epoch/src/atomic.rs#L340-L372).
-(Note: the former approach requires more macros to be defined depending on the number of version requirements, the latter approach requires more functions to be maintained manually)
+You can manually define declarative macros with similar functionality (see
+[`if_rust_version`](https://github.com/ogoffart/if_rust_version#examples)),
+or [you can define the same function twice with different cfg](https://github.com/crossbeam-rs/crossbeam/blob/0b6ea5f69fde8768c1cfac0d3601e0b4325d7997/crossbeam-epoch/src/atomic.rs#L340-L372).
+(Note: the former approach requires more macros to be defined depending on the
+number of version requirements, the latter approach requires more functions to
+be maintained manually)
 */
 
 #![doc(test(
