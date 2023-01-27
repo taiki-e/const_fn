@@ -152,7 +152,7 @@ pub mod version {
 
     // const_fn_trait_bound (1.61+)
 
-    #[derive(Debug, Eq, PartialEq)]
+    #[derive(Debug, PartialEq)]
     pub struct A<T>(T);
 
     impl<T: IntoIterator> A<T> {
@@ -219,7 +219,7 @@ pub mod cfg {
 
     // const_fn_trait_bound (1.61+)
 
-    #[derive(Debug, Eq, PartialEq)]
+    #[derive(Debug, PartialEq)]
     pub struct A<T>(T);
 
     impl<T: IntoIterator> A<T> {
