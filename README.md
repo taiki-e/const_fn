@@ -6,7 +6,7 @@
 [![rustc](https://img.shields.io/badge/rustc-1.31+-blue?style=flat-square&logo=rust)](https://www.rust-lang.org)
 [![build status](https://img.shields.io/github/actions/workflow/status/taiki-e/const_fn/ci.yml?branch=main&style=flat-square&logo=github)](https://github.com/taiki-e/const_fn/actions)
 
-An attribute for easy generation of const functions with conditional
+A lightweight attribute for easy generation of const functions with conditional
 compilations.
 
 ## Usage

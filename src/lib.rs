@@ -1,5 +1,5 @@
 /*!
-An attribute for easy generation of const functions with conditional
+A lightweight attribute for easy generation of const functions with conditional
 compilations.
 
 ## Examples
@@ -102,7 +102,7 @@ use crate::{
     utils::{cfg_attrs, parse_as_empty, tt_span},
 };
 
-/// An attribute for easy generation of const functions with conditional compilations.
+/// A lightweight attribute for easy generation of const functions with conditional compilations.
 ///
 /// See crate level documentation for details.
 #[proc_macro_attribute]

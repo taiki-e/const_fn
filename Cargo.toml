@@ -9,7 +9,7 @@ keywords = ["macros", "attribute", "const", "static"]
 categories = ["no-std", "rust-patterns"]
 exclude = ["/.*", "/tools"]
 description = """
-An attribute for easy generation of const functions with conditional compilations.
+A lightweight attribute for easy generation of const functions with conditional compilations.
 """
 
 [package.metadata.docs.rs]
