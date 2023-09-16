@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+
 use proc_macro::{Delimiter, Ident, Literal, Span, TokenStream, TokenTree};
 
 use crate::{iter::TokenIter, to_tokens::ToTokens, utils::tt_span, Result};

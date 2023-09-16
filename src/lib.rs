@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+
 /*!
 A lightweight attribute for easy generation of const functions with conditional
 compilations.
