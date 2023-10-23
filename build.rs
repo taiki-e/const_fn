@@ -109,11 +109,7 @@ impl Version {
 // https://github.com/taiki-e/const_fn/issues/27
 // https://github.com/rust-lang/rust/pull/81468
 fn assume_incomplete_release() -> bool {
-    // Recognized formats:
-    //
-    //     -Z assume-incomplete-release
-    //
-    //     -Zassume-incomplete-release
+    // Recognized formats: -Z( )?assume-incomplete-release
 
     // https://github.com/rust-lang/cargo/issues/10111
     if let Some(rustflags) = env::var_os("CARGO_ENCODED_RUSTFLAGS") {
