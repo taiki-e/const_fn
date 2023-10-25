@@ -8,11 +8,21 @@ fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
     let cfg = autocfg::new();
-    cfg.emit_rustc_version(1, 31);
-    cfg.emit_rustc_version(1, 33);
-    cfg.emit_rustc_version(1, 39);
-    cfg.emit_rustc_version(1, 46);
-    cfg.emit_rustc_version(1, 61);
+    if cfg.probe_rustc_version(1, 31) {
+        println!("cargo:rustc-cfg=rustc_1_31");
+    }
+    if cfg.probe_rustc_version(1, 33) {
+        println!("cargo:rustc-cfg=rustc_1_33");
+    }
+    if cfg.probe_rustc_version(1, 39) {
+        println!("cargo:rustc-cfg=rustc_1_39");
+    }
+    if cfg.probe_rustc_version(1, 46) {
+        println!("cargo:rustc-cfg=rustc_1_46");
+    }
+    if cfg.probe_rustc_version(1, 61) {
+        println!("cargo:rustc-cfg=rustc_1_61");
+    }
 
     if is_nightly() {
         println!("cargo:rustc-cfg=const_unstable");

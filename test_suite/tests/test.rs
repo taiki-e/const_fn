@@ -75,13 +75,13 @@ pub mod signature {
 
     // const async unsafe extern
     // functions cannot be both `const` and `async`, but rustc syntactically accepts this.
-    #[const_fn(cfg(FALSE))]
+    #[const_fn(cfg(any()))]
     async unsafe extern "C" fn const_async_unsafe_extern_non_const() {}
-    #[const_fn(cfg(FALSE))]
+    #[const_fn(cfg(any()))]
     pub async unsafe extern "C" fn const_async_unsafe_extern_non_const_pub() {}
-    #[const_fn(cfg(FALSE))]
+    #[const_fn(cfg(any()))]
     const async unsafe extern "C" fn const_async_unsafe_extern_const() {}
-    #[const_fn(cfg(FALSE))]
+    #[const_fn(cfg(any()))]
     pub const async unsafe extern "C" fn const_async_unsafe_extern_const_pub() {}
 }
 
