@@ -76,7 +76,6 @@ be maintained manually)
     )
 ))]
 #![forbid(unsafe_code)]
-#![warn(rust_2018_idioms, single_use_lifetimes, unreachable_pub, clippy::pedantic)]
 #![allow(clippy::cast_lossless)]
 
 // older compilers require explicit `extern crate`.

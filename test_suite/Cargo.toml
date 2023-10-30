@@ -10,3 +10,6 @@ autocfg = "1"
 [dev-dependencies]
 const_fn = { path = ".." }
 rustversion = "1"
+
+[lints]
+workspace = true
