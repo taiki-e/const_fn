@@ -76,7 +76,6 @@ be maintained manually)
     )
 ))]
 #![forbid(unsafe_code)]
-#![allow(clippy::cast_lossless)]
 
 // older compilers require explicit `extern crate`.
 #[allow(unused_extern_crates)]
@@ -132,7 +131,7 @@ fn expand(args: TokenStream, input: TokenStream) -> Result<TokenStream> {
         }
         Arg::Version(req) => {
             if req.major > 1
-                || req.minor + (cfg!(const_fn_assume_incomplete_release) as u32) > VERSION.minor
+                || req.minor + u32::from(cfg!(const_fn_assume_incomplete_release)) > VERSION.minor
             {
                 func.print_const = false;
             }
