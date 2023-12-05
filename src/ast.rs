@@ -48,7 +48,7 @@ impl ToTokens for Func {
 }
 
 fn parse_signature(input: &mut TokenIter) -> Vec<TokenTree> {
-    let mut sig = Vec::new();
+    let mut sig = vec![];
     let mut has_const = false;
     loop {
         match input.peek() {
@@ -82,7 +82,7 @@ fn parse_signature(input: &mut TokenIter) -> Vec<TokenTree> {
 }
 
 fn parse_attrs(input: &mut TokenIter) -> Result<Vec<Attribute>> {
-    let mut attrs = Vec::new();
+    let mut attrs = vec![];
     loop {
         let pound_token = match input.peek() {
             Some(TokenTree::Punct(p)) if p.as_char() == '#' => input.next().unwrap(),

@@ -174,9 +174,9 @@ pub mod version {
     fn test() {
         assert!(const_min("variables") == "variables");
         assert_eq!(const_let("variables"), "variables");
-        assert_eq!(const_vec_new::<u8>(), Vec::new());
+        assert_eq!(const_vec_new::<u8>(), vec![]);
         assert_eq!(const_match(1), Some(1));
-        assert_eq!(A::const_fn_trait_bound(const_vec_new::<u8>()), A(Vec::new()));
+        assert_eq!(A::const_fn_trait_bound(const_vec_new::<u8>()), A(vec![]));
     }
 }
 
@@ -241,9 +241,9 @@ pub mod cfg {
     fn test() {
         assert!(const_min("variables") == "variables");
         assert_eq!(const_let("variables"), "variables");
-        assert_eq!(const_vec_new::<u8>(), Vec::new());
+        assert_eq!(const_vec_new::<u8>(), vec![]);
         assert_eq!(const_match(1), Some(1));
-        assert_eq!(A::const_fn_trait_bound(const_vec_new::<u8>()), A(Vec::new()));
+        assert_eq!(A::const_fn_trait_bound(const_vec_new::<u8>()), A(vec![]));
     }
 }
 
