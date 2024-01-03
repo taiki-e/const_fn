@@ -2,19 +2,12 @@
 
 // The rustc-cfg emitted by the build script are *not* public API.
 
-use std::{
-    env, fs,
-    path::{Path, PathBuf},
-    process::Command,
-    str,
-};
+use std::{env, fs, path::PathBuf, process::Command, str};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
-    // TODO: do not fallback to "rustc"
-    let rustc: PathBuf = env::var_os("RUSTC").unwrap_or_else(|| "rustc".into()).into();
-    let version = match Version::from_rustc(&rustc) {
+    let version = match rustc_version() {
         Ok(version) => version.print(),
         Err(e) => {
             println!(
@@ -39,64 +32,48 @@ fn main() {
     println!("cargo:rustc-cfg=const_fn_has_build_script");
 }
 
+fn rustc_version() -> Result<Version, String> {
+    let rustc: PathBuf = env::var_os("RUSTC").ok_or("RUSTC not set")?.into();
+    // Use verbose version output because the packagers add extra strings to the normal version output.
+    let output = Command::new(&rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
+        format!("could not execute `{} --version --verbose`: {}", rustc.display(), e)
+    })?;
+    let verbose_version = str::from_utf8(&output.stdout).map_err(|e| {
+        format!("failed to parse output of `{} --version --verbose`: {}", rustc.display(), e)
+    })?;
+    Version::parse(verbose_version).ok_or_else(|| {
+        format!(
+            "unexpected output from `{} --version --verbose`: {}",
+            rustc.display(),
+            verbose_version
+        )
+    })
+}
+
 struct Version {
     minor: u32,
     nightly: bool,
 }
 
 impl Version {
-    // The version detection logic is based on https://github.com/cuviper/autocfg/blob/1.0.1/src/version.rs#L25-L59,
-    // but detects channel and provides a better error message.
-    fn from_rustc(rustc: &Path) -> Result<Self, String> {
-        let output =
-            Command::new(rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
-                format!("could not execute `{} --version --verbose`: {}", rustc.display(), e)
-            })?;
-        if !output.status.success() {
-            return Err(format!(
-                "process didn't exit successfully: `{} --version --verbose`",
-                rustc.display()
-            ));
-        }
-        let output = str::from_utf8(&output.stdout).map_err(|e| {
-            format!("failed to parse output of `{} --version --verbose`: {}", rustc.display(), e)
-        })?;
-
-        // Find the release line in the verbose version output.
-        let release = output
+    fn parse(verbose_version: &str) -> Option<Self> {
+        let mut release = verbose_version
             .lines()
             .find(|line| line.starts_with("release: "))
-            .map(|line| &line["release: ".len()..])
-            .ok_or_else(|| {
-                format!(
-                    "could not find rustc release from output of `{} --version --verbose`: {}",
-                    rustc.display(),
-                    output
-                )
-            })?;
+            .map(|line| &line["release: ".len()..])?
+            .splitn(2, '-');
+        let version = release.next().unwrap();
+        let channel = release.next().unwrap_or_default();
+        let mut digits = version.splitn(3, '.');
+        let major = digits.next()?;
+        if major != "1" {
+            return None;
+        }
+        let minor = digits.next()?.parse::<u32>().ok()?;
+        let _patch = digits.next().unwrap_or("0").parse::<u32>().ok()?;
+        let nightly = channel == "nightly" || channel == "dev";
 
-        // Split the version and channel info.
-        let mut version_channel = release.split('-');
-        let version = version_channel.next().unwrap();
-        let channel = version_channel.next();
-
-        let minor = (|| {
-            // Split the version into semver components.
-            let mut digits = version.splitn(3, '.');
-            let major = digits.next()?;
-            if major != "1" {
-                return None;
-            }
-            let minor = digits.next()?.parse().ok()?;
-            let _patch = digits.next()?;
-            Some(minor)
-        })()
-        .ok_or_else(|| {
-            format!("unexpected output from `{} --version --verbose`: {}", rustc.display(), output)
-        })?;
-
-        let nightly = channel.map_or(false, |c| c == "dev" || c == "nightly");
-        Ok(Self { minor, nightly })
+        Some(Self { minor, nightly })
     }
 
     fn print(&self) -> String {
