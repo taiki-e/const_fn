@@ -1,8 +1,6 @@
 [package]
 name = "const_fn_test_suite"
-version = "0.0.0"
 edition = "2018"
-publish = false
 
 [build-dependencies]
 autocfg = "1"
