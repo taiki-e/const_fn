@@ -26,7 +26,7 @@ workspace = true
 [workspace]
 members = ["test_suite"]
 
-# This table is shared by projects under https://github.com/taiki-e.
+# This table is shared by projects under github.com/taiki-e.
 # It is not intended for manual editing.
 [workspace.lints.rust]
 improper_ctypes = "warn"
