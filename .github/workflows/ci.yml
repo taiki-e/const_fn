@@ -22,6 +22,7 @@ env:
   RUSTDOCFLAGS: -D warnings
   RUSTFLAGS: -D warnings
   RUSTUP_MAX_RETRIES: 10
+  CONST_FN_DENY_WARNINGS: 1
 
 defaults:
   run:

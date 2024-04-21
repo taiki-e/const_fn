@@ -2,7 +2,7 @@
 
 // The rustc-cfg emitted by the build script are *not* public API.
 
-use std::{env, fs, path::PathBuf, process::Command, str};
+use std::{env, fs, iter, path::PathBuf, process::Command, str};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
@@ -10,6 +10,9 @@ fn main() {
     let version = match rustc_version() {
         Ok(version) => version.print(),
         Err(e) => {
+            if env::var_os("CONST_FN_DENY_WARNINGS").unwrap_or_default() == "1" {
+                panic!("unable to determine rustc version")
+            }
             println!(
                 "cargo:warning={}: unable to determine rustc version: {}",
                 env!("CARGO_PKG_NAME"),
@@ -33,21 +36,26 @@ fn main() {
 }
 
 fn rustc_version() -> Result<Version, String> {
-    let rustc: PathBuf = env::var_os("RUSTC").ok_or("RUSTC not set")?.into();
+    let rustc = env::var_os("RUSTC").ok_or("RUSTC not set")?;
+    let rustc_wrapper = if env::var_os("CARGO_ENCODED_RUSTFLAGS").is_some() {
+        env::var_os("RUSTC_WRAPPER").filter(|v| !v.is_empty())
+    } else {
+        // Cargo sets environment variables for wrappers correctly only since https://github.com/rust-lang/cargo/pull/9601.
+        None
+    };
+    // Do not apply RUSTC_WORKSPACE_WRAPPER: https://github.com/cuviper/autocfg/issues/58#issuecomment-2067625980
+    let mut rustc = rustc_wrapper.into_iter().chain(iter::once(rustc));
+    let mut cmd = Command::new(rustc.next().unwrap());
+    cmd.args(rustc);
     // Use verbose version output because the packagers add extra strings to the normal version output.
-    let output = Command::new(&rustc).args(&["--version", "--verbose"]).output().map_err(|e| {
-        format!("could not execute `{} --version --verbose`: {}", rustc.display(), e)
-    })?;
-    let verbose_version = str::from_utf8(&output.stdout).map_err(|e| {
-        format!("failed to parse output of `{} --version --verbose`: {}", rustc.display(), e)
-    })?;
-    Version::parse(verbose_version).ok_or_else(|| {
-        format!(
-            "unexpected output from `{} --version --verbose`: {}",
-            rustc.display(),
-            verbose_version
-        )
-    })
+    // Do not use long flags (--version --verbose) because clippy-deriver doesn't handle them properly.
+    // -vV is also matched with that cargo internally uses: https://github.com/rust-lang/cargo/blob/14b46ecc62aa671d7477beba237ad9c6a209cf5d/src/cargo/util/rustc.rs#L65
+    let output =
+        cmd.arg("-vV").output().map_err(|e| format!("could not execute {:?}: {}", cmd, e))?;
+    let verbose_version = str::from_utf8(&output.stdout)
+        .map_err(|e| format!("failed to parse output of {:?}: {}", cmd, e))?;
+    Version::parse(verbose_version)
+        .ok_or_else(|| format!("unexpected output from {:?}: {}", cmd, verbose_version))
 }
 
 struct Version {
