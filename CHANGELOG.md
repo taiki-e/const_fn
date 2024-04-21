@@ -16,15 +16,15 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [0.4.9] - 2022-01-03
 
-- [Fix detection of `-Z assume-incomplete-release` in recent nightly compilers.](https://github.com/taiki-e/const_fn/pull/39)
+- Fix detection of `-Z assume-incomplete-release` in recent nightly compilers. ([#39](https://github.com/taiki-e/const_fn/pull/39))
 
 ## [0.4.8] - 2021-05-19
 
-- [Fix parsing of macro metavariable in attribute arguments.](https://github.com/taiki-e/const_fn/pull/37)
+- Fix parsing of macro metavariable in attribute arguments. ([#37](https://github.com/taiki-e/const_fn/pull/37))
 
 ## [0.4.7] - 2021-04-17
 
-- [Support compiling with `RUSTFLAGS='-Z assume-incomplete-release'` on nightly compiler.](https://github.com/taiki-e/const_fn/pull/35)
+- Support compiling with `RUSTFLAGS='-Z assume-incomplete-release'` on nightly compiler. ([#35](https://github.com/taiki-e/const_fn/pull/35))
 
 ## [0.4.6] - 2021-03-27
 
@@ -36,7 +36,7 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [0.4.4] - 2020-11-02
 
-- [Accept `const_fn` attribute with no arguments and functions without `const` keyword.](https://github.com/taiki-e/const_fn/pull/34)
+- Accept `const_fn` attribute with no arguments and functions without `const` keyword. ([#34](https://github.com/taiki-e/const_fn/pull/34))
   This allows `const_fn` to be used as an optional dependency.
 
   ```rust
@@ -48,23 +48,24 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [0.4.3] - 2020-11-02
 
-- [`const_fn` no longer fails to compile if unable to determine rustc version. Instead, it now displays a warning.](https://github.com/taiki-e/const_fn/pull/31)
+- `const_fn` no longer fails to compile if unable to determine rustc version. Instead, it now displays a warning. ([#31](https://github.com/taiki-e/const_fn/pull/31))
 
-- [`const_fn` no longer relies on debug print format.](https://github.com/taiki-e/const_fn/pull/30)
+- `const_fn` no longer relies on debug print format. ([#30](https://github.com/taiki-e/const_fn/pull/30))
 
 ## [0.4.2] - 2020-08-31
 
-- [Improve error messages when failed to parse version information.](https://github.com/taiki-e/const_fn/pull/26)
+- Improve error messages when failed to parse version information. ([#26](https://github.com/taiki-e/const_fn/pull/26))
 
-- [Fix compile failure with cargo installed by yum.](https://github.com/taiki-e/const_fn/pull/26)
+- Fix compile failure with cargo installed by yum. ([#26](https://github.com/taiki-e/const_fn/pull/26))
 
 ## [0.4.1] - 2020-08-25
 
-- [Fix compile failure with non-cargo build systems.](https://github.com/taiki-e/const_fn/pull/23)
+- Fix compile failure with non-cargo build systems. ([#23](https://github.com/taiki-e/const_fn/pull/23))
 
 ## [0.4.0] - 2020-08-25
 
-- [Add support for version-based code generation.](https://github.com/taiki-e/const_fn/pull/17) The following conditions are available:
+- Add support for version-based code generation. ([#17](https://github.com/taiki-e/const_fn/pull/17))
+  The following conditions are available:
 
   ```rust
   use const_fn::const_fn;
