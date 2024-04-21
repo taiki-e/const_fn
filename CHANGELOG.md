@@ -10,6 +10,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+## [0.4.10] - 2024-04-21
+
 - Respect `RUSTC_WRAPPER` in rustc version detection.
 
 ## [0.4.9] - 2022-01-03
@@ -146,7 +148,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.9...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.10...HEAD
+[0.4.10]: https://github.com/taiki-e/const_fn/compare/v0.4.9...v0.4.10
 [0.4.9]: https://github.com/taiki-e/const_fn/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/taiki-e/const_fn/compare/v0.4.7...v0.4.8
 [0.4.7]: https://github.com/taiki-e/const_fn/compare/v0.4.6...v0.4.7
