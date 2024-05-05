@@ -4,6 +4,7 @@ use std::{env, process::Command};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rustc-check-cfg=cfg(rustc_1_31,rustc_1_33,rustc_1_39,rustc_1_46,rustc_1_61,const_unstable)");
 
     let cfg = autocfg::new();
     if cfg.probe_rustc_version(1, 31) {

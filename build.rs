@@ -6,6 +6,9 @@ use std::{env, fs, iter, path::PathBuf, process::Command, str};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
+    println!(
+        "cargo:rustc-check-cfg=cfg(const_fn_assume_incomplete_release,const_fn_has_build_script)"
+    );
 
     let version = match rustc_version() {
         Ok(version) => version.print(),

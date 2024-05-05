@@ -30,7 +30,9 @@ pub const fn cfg() {
 }
 
 // function is `const` if `cfg(feature = "...")` is true
+# #[cfg(any())]
 #[const_fn(feature = "...")]
+# pub fn _feature() { unimplemented!() }
 pub const fn feature() {
     /* ... */
 }
@@ -44,7 +46,9 @@ Therefore, you can use `const_fn` as an optional dependency by combination with 
 
 ```rust
 // function is `const` if `cfg(feature = "...")` is true
+# #[cfg(any())]
 #[cfg_attr(feature = "...", const_fn::const_fn)]
+# pub fn _optional() { unimplemented!() }
 pub fn optional() {
     /* ... */
 }
