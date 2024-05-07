@@ -6,12 +6,9 @@ use std::{env, fs, iter, path::PathBuf, process::Command, str};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
-    println!(
-        "cargo:rustc-check-cfg=cfg(const_fn_assume_incomplete_release,const_fn_has_build_script)"
-    );
 
     let version = match rustc_version() {
-        Ok(version) => version.print(),
+        Ok(version) => version,
         Err(e) => {
             if env::var_os("CONST_FN_DENY_WARNINGS").unwrap_or_default() == "1" {
                 panic!("unable to determine rustc version")
@@ -25,9 +22,15 @@ fn main() {
         }
     };
 
+    if version.minor >= 80 {
+        println!(
+            "cargo:rustc-check-cfg=cfg(const_fn_assume_incomplete_release,const_fn_has_build_script)"
+        );
+    }
+
     let out_dir: PathBuf = env::var_os("OUT_DIR").expect("OUT_DIR not set").into();
     let out_file = &out_dir.join("version");
-    fs::write(out_file, version)
+    fs::write(out_file, version.print())
         .unwrap_or_else(|e| panic!("failed to write {}: {}", out_file.display(), e));
 
     if assume_incomplete_release() {
