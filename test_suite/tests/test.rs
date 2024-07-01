@@ -2,6 +2,7 @@
 
 #![cfg_attr(const_unstable, feature(const_extern_fn))]
 #![allow(
+    dead_code,
     improper_ctypes_definitions,
     clippy::missing_safety_doc,
     clippy::unused_async,
@@ -9,8 +10,6 @@
 )] // this is test
 
 pub mod signature {
-    #![allow(dead_code)]
-
     use const_fn::const_fn;
 
     // const
@@ -90,7 +89,7 @@ pub mod signature {
 }
 
 pub mod min_const_generics {
-    #![allow(dead_code, unused_braces)]
+    #![allow(unused_braces)]
 
     use const_fn::const_fn;
 
@@ -248,8 +247,6 @@ pub mod cfg {
 }
 
 pub mod macros {
-    #![allow(dead_code)]
-
     use const_fn::const_fn;
 
     macro_rules! args {
