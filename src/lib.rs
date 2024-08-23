@@ -135,7 +135,7 @@ fn expand(args: TokenStream, input: TokenStream) -> Result<TokenStream> {
         }
         Arg::Version(req) => {
             if req.major > 1
-                || req.minor + u32::from(cfg!(const_fn_assume_incomplete_release)) > VERSION.minor
+                || req.minor + cfg!(const_fn_assume_incomplete_release) as u32 > VERSION.minor
             {
                 func.print_const = false;
             }
