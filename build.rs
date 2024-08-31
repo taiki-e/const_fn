@@ -10,7 +10,7 @@ fn main() {
     let version = match rustc_version() {
         Ok(version) => version,
         Err(e) => {
-            if env::var_os("CONST_FN_DENY_WARNINGS").unwrap_or_default() == "1" {
+            if env::var_os("CONST_FN_DENY_WARNINGS").is_some() {
                 panic!("unable to determine rustc version")
             }
             println!(
