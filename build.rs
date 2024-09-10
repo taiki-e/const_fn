@@ -26,6 +26,7 @@ fn main() {
         println!(
             "cargo:rustc-check-cfg=cfg(const_fn_assume_incomplete_release,const_fn_has_build_script)"
         );
+        println!(r#"cargo:rustc-check-cfg=cfg(host_os, values("windows"))"#);
     }
 
     let out_dir: PathBuf = env::var_os("OUT_DIR").expect("OUT_DIR not set").into();
@@ -35,6 +36,11 @@ fn main() {
 
     if assume_incomplete_release() {
         println!("cargo:rustc-cfg=const_fn_assume_incomplete_release");
+    }
+
+    let host = env::var("HOST").expect("HOST not set");
+    if host.contains("-windows") {
+        println!(r#"cargo:rustc-cfg=host_os="windows""#);
     }
 
     // Mark as build script has been run successfully.

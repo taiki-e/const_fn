@@ -251,8 +251,13 @@ struct Version {
     nightly: bool,
 }
 
+// Use \ on Windows host to work around https://github.com/rust-lang/rust/issues/75075 / https://github.com/rust-lang/cargo/issues/13919.
 #[cfg(const_fn_has_build_script)]
+#[cfg(not(host_os = "windows"))]
 const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version"));
+#[cfg(const_fn_has_build_script)]
+#[cfg(host_os = "windows")]
+const VERSION: Version = include!(concat!(env!("OUT_DIR"), "\\version"));
 // If build script has not run or unable to determine version, it is considered as Rust 1.0.
 #[cfg(not(const_fn_has_build_script))]
 const VERSION: Version = Version { minor: 0, nightly: false };
