@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-#![cfg_attr(const_unstable, feature(const_extern_fn))]
 #![allow(
     dead_code,
     improper_ctypes_definitions,
@@ -41,39 +40,39 @@ pub mod signature {
     const _: () = unsafe { const_unsafe_const_pub() };
 
     // const extern
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     extern "C" fn const_extern_non_const() {}
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     pub extern "C" fn const_extern_non_const_pub() {}
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     const extern "C" fn const_extern_const() {}
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     pub const extern "C" fn const_extern_const_pub() {}
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = const_extern_non_const();
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = const_extern_non_const_pub();
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = const_extern_const();
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = const_extern_const_pub();
 
     // const unsafe extern
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     unsafe extern "C" fn const_unsafe_extern_non_const() {}
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     pub unsafe extern "C" fn const_unsafe_extern_non_const_pub() {}
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     const unsafe extern "C" fn const_unsafe_extern_const() {}
-    #[const_fn(cfg(const_unstable))]
+    #[const_fn("1.83")]
     pub const unsafe extern "C" fn const_unsafe_extern_const_pub() {}
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = unsafe { const_unsafe_extern_non_const() };
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = unsafe { const_unsafe_extern_non_const_pub() };
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = unsafe { const_unsafe_extern_const() };
-    #[cfg(const_unstable)]
+    #[cfg(rustc_1_83)]
     const _: () = unsafe { const_unsafe_extern_const_pub() };
 
     // const async unsafe extern
