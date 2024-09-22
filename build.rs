@@ -26,7 +26,7 @@ fn main() {
         println!(
             "cargo:rustc-check-cfg=cfg(const_fn_assume_incomplete_release,const_fn_has_build_script)"
         );
-        println!(r#"cargo:rustc-check-cfg=cfg(host_os, values("windows"))"#);
+        println!(r#"cargo:rustc-check-cfg=cfg(host_os,values("windows"))"#);
     }
 
     let out_dir: PathBuf = env::var_os("OUT_DIR").expect("OUT_DIR not set").into();
@@ -61,7 +61,7 @@ fn rustc_version() -> Result<Version, String> {
     cmd.args(rustc);
     // Use verbose version output because the packagers add extra strings to the normal version output.
     // Do not use long flags (--version --verbose) because clippy-deriver doesn't handle them properly.
-    // -vV is also matched with that cargo internally uses: https://github.com/rust-lang/cargo/blob/14b46ecc62aa671d7477beba237ad9c6a209cf5d/src/cargo/util/rustc.rs#L65
+    // -vV is also matched with that cargo internally uses: https://github.com/rust-lang/cargo/blob/0.80.0/src/cargo/util/rustc.rs#L65
     let output =
         cmd.arg("-vV").output().map_err(|e| format!("could not execute {:?}: {}", cmd, e))?;
     let verbose_version = str::from_utf8(&output.stdout)
