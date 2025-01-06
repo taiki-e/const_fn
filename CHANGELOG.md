@@ -4,11 +4,17 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org).
 
+Releases may yanked if there is a security bug, a soundness bug, or a regression.
+
 <!--
 Note: In this file, do not use the hard wrap in the middle of a sentence for compatibility with GitHub comment style markdown rendering.
 -->
 
 ## [Unreleased]
+
+- Improve Windows host support by workaround [rustc bug fixed in Rust 1.84](https://github.com/rust-lang/rust/pull/125205).
+
+- Respect [`RUSTC_BOOTSTRAP=-1` recently added in nightly](https://github.com/rust-lang/rust/pull/132993) in rustc version detection.
 
 ## [0.4.10] - 2024-04-21
 

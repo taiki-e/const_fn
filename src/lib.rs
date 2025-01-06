@@ -252,6 +252,7 @@ struct Version {
 }
 
 // Use \ on Windows host to work around https://github.com/rust-lang/rust/issues/75075 / https://github.com/rust-lang/cargo/issues/13919.
+// (Fixed in Rust 1.84: https://github.com/rust-lang/rust/pull/125205)
 #[cfg(const_fn_has_build_script)]
 #[cfg(not(host_os = "windows"))]
 const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version"));
