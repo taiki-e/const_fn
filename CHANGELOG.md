@@ -12,6 +12,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+## [0.4.11] - 2025-01-06
+
 - Improve Windows host support by workaround [rustc bug fixed in Rust 1.84](https://github.com/rust-lang/rust/pull/125205).
 
 - Respect [`RUSTC_BOOTSTRAP=-1` recently added in nightly](https://github.com/rust-lang/rust/pull/132993) in rustc version detection.
@@ -155,7 +157,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.10...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.11...HEAD
+[0.4.11]: https://github.com/taiki-e/const_fn/compare/v0.4.10...v0.4.11
 [0.4.10]: https://github.com/taiki-e/const_fn/compare/v0.4.9...v0.4.10
 [0.4.9]: https://github.com/taiki-e/const_fn/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/taiki-e/const_fn/compare/v0.4.7...v0.4.8
