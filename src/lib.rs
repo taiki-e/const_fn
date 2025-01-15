@@ -259,6 +259,6 @@ const VERSION: Version = include!(concat!(env!("OUT_DIR"), "/version"));
 #[cfg(const_fn_has_build_script)]
 #[cfg(host_os = "windows")]
 const VERSION: Version = include!(concat!(env!("OUT_DIR"), "\\version"));
-// If build script has not run or unable to determine version, it is considered as Rust 1.0.
+// If build script has not run or unable to determine version, it is considered as our MSRV (Rust 1.31).
 #[cfg(not(const_fn_has_build_script))]
-const VERSION: Version = Version { minor: 0, nightly: false };
+const VERSION: Version = Version { minor: 31, nightly: false };
