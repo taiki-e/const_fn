@@ -150,15 +150,15 @@ fn expand(args: TokenStream, input: TokenStream) -> Result<TokenStream> {
 }
 
 enum Arg {
-    // `const_fn("...")`
+    // `#[const_fn("...")]`
     Version(VersionReq),
-    // `const_fn(nightly)`
+    // `#[const_fn(nightly)]`
     Nightly,
-    // `const_fn(cfg(...))`
+    // `#[const_fn(cfg(...))]`
     Cfg(TokenStream),
-    // `const_fn(feature = "...")`
+    // `#[const_fn(feature = "...")]`
     Feature(TokenStream),
-    // `const_fn`
+    // `#[const_fn]`
     Always,
 }
 
