@@ -6,7 +6,7 @@ compilations.
 
 ## Examples
 
-```rust
+```
 use const_fn::const_fn;
 
 // function is `const` on specified version and later compiler (including beta, nightly, and dev build)
@@ -22,7 +22,7 @@ pub const fn nightly() {
 }
 
 // function is `const` if `cfg(...)` is true
-# #[cfg(any())]
+# #[cfg(any(/* always false */))]
 #[const_fn(cfg(...))]
 # pub fn _cfg() { unimplemented!() }
 pub const fn cfg() {
@@ -30,7 +30,7 @@ pub const fn cfg() {
 }
 
 // function is `const` if `cfg(feature = "...")` is true
-# #[cfg(any())]
+# #[cfg(any(/* always false */))]
 #[const_fn(feature = "...")]
 # pub fn _feature() { unimplemented!() }
 pub const fn feature() {
@@ -44,9 +44,9 @@ If no arguments are passed, `const_fn` will always make the function `const`.
 
 Therefore, you can use `const_fn` as an optional dependency by combination with `cfg_attr`.
 
-```rust
+```
 // function is `const` if `cfg(feature = "...")` is true
-# #[cfg(any())]
+# #[cfg(any(/* always false */))]
 #[cfg_attr(feature = "...", const_fn::const_fn)]
 # pub fn _optional() { unimplemented!() }
 pub fn optional() {
@@ -107,7 +107,7 @@ use crate::{
 
 /// A lightweight attribute for easy generation of const functions with conditional compilations.
 ///
-/// See crate level documentation for details.
+/// See the [crate-level documentation](crate) for details.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
     expand(args, input).unwrap_or_else(Error::into_compile_error)
