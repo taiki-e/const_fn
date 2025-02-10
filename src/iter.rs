@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-// Based on https://github.com/dtolnay/proc-macro-hack/blob/0.5.19/src/iter.rs
+// Based on https://github.com/dtolnay/proc-macro-hack/blob/0.5.20/src/iter.rs
 
 use proc_macro::{token_stream, Delimiter, TokenStream, TokenTree};
 

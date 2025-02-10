@@ -110,27 +110,27 @@ use crate::{
 /// See the [crate-level documentation](crate) for details.
 #[proc_macro_attribute]
 pub fn const_fn(args: TokenStream, input: TokenStream) -> TokenStream {
-    expand(args, input).unwrap_or_else(Error::into_compile_error)
+    attribute(args, input).unwrap_or_else(Error::into_compile_error)
 }
 
-fn expand(args: TokenStream, input: TokenStream) -> Result<TokenStream> {
+fn attribute(args: TokenStream, input: TokenStream) -> Result<TokenStream> {
     let arg = parse_arg(args)?;
     let mut func = ast::parse_input(input)?;
     Ok(match arg {
         Arg::Cfg(cfg) => {
             let (mut tokens, cfg_not) = cfg_attrs(cfg);
-            tokens.extend(func.to_token_stream());
+            func.to_tokens(&mut tokens);
             tokens.extend(cfg_not);
             func.print_const = false;
-            tokens.extend(func.to_token_stream());
+            func.to_tokens(&mut tokens);
             tokens
         }
         Arg::Feature(feat) => {
             let (mut tokens, cfg_not) = cfg_attrs(feat);
-            tokens.extend(func.to_token_stream());
+            func.to_tokens(&mut tokens);
             tokens.extend(cfg_not);
             func.print_const = false;
-            tokens.extend(func.to_token_stream());
+            func.to_tokens(&mut tokens);
             tokens
         }
         Arg::Version(req) => {
@@ -208,7 +208,7 @@ fn parse_arg(tokens: TokenStream) -> Result<Arg> {
                 parse_as_empty(iter)?;
                 return match l.value().parse::<VersionReq>() {
                     Ok(req) => Ok(Arg::Version(req)),
-                    Err(e) => bail!(l.span(), "{}", e),
+                    Err(e) => bail!(l.span(), e),
                 };
             }
         }

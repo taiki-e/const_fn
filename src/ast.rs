@@ -34,14 +34,20 @@ impl ToTokens for Func {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         self.attrs.iter().for_each(|attr| attr.to_tokens(tokens));
         if self.print_const {
-            self.sig.iter().for_each(|attr| attr.to_tokens(tokens));
+            tokens.extend(self.sig.iter().cloned());
         } else {
-            self.sig
-                .iter()
-                .filter(
-                    |tt| if let TokenTree::Ident(i) = tt { i.to_string() != "const" } else { true },
-                )
-                .for_each(|tt| tt.to_tokens(tokens));
+            tokens.extend(
+                self.sig
+                    .iter()
+                    .filter(|tt| {
+                        if let TokenTree::Ident(i) = tt {
+                            i.to_string() != "const"
+                        } else {
+                            true
+                        }
+                    })
+                    .cloned(),
+            );
         }
         self.body.to_tokens(tokens);
     }

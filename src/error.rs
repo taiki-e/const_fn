@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-use std::iter::FromIterator;
+use std::iter::{self, FromIterator};
 
 use proc_macro::{Delimiter, Group, Ident, Literal, Punct, Spacing, Span, TokenStream, TokenTree};
 
@@ -31,25 +31,50 @@ impl Error {
         Self { span, msg }
     }
 
-    // https://github.com/dtolnay/syn/blob/1.0.39/src/error.rs#L218-L237
+    // https://github.com/dtolnay/syn/blob/2.0.95/src/error.rs#L282-L322
     pub(crate) fn into_compile_error(self) -> TokenStream {
-        // compile_error!($msg)
+        let (start, end) = (self.span, self.span);
+        // Note that using builtin macros as {core,std}:: are only available on Rust 1.38+ https://github.com/rust-lang/rust/pull/63056
+        // but that is fine because it only makes the diagnostics on the older version worse.
+        // ::core::compile_error!($msg)
         TokenStream::from_iter(vec![
-            TokenTree::Ident(Ident::new("compile_error", self.span)),
+            TokenTree::Punct({
+                let mut punct = Punct::new(':', Spacing::Joint);
+                punct.set_span(start);
+                punct
+            }),
+            TokenTree::Punct({
+                let mut punct = Punct::new(':', Spacing::Alone);
+                punct.set_span(start);
+                punct
+            }),
+            TokenTree::Ident(Ident::new("core", start)),
+            TokenTree::Punct({
+                let mut punct = Punct::new(':', Spacing::Joint);
+                punct.set_span(start);
+                punct
+            }),
+            TokenTree::Punct({
+                let mut punct = Punct::new(':', Spacing::Alone);
+                punct.set_span(start);
+                punct
+            }),
+            TokenTree::Ident(Ident::new("compile_error", start)),
             TokenTree::Punct({
                 let mut punct = Punct::new('!', Spacing::Alone);
-                punct.set_span(self.span);
+                punct.set_span(start);
                 punct
             }),
             TokenTree::Group({
                 let mut group = Group::new(Delimiter::Brace, {
-                    TokenStream::from_iter(vec![TokenTree::Literal({
+                    iter::once(TokenTree::Literal({
                         let mut string = Literal::string(&self.msg);
-                        string.set_span(self.span);
+                        string.set_span(end);
                         string
-                    })])
+                    }))
+                    .collect()
                 });
-                group.set_span(self.span);
+                group.set_span(end);
                 group
             }),
         ])
