@@ -2,7 +2,7 @@
 
 // Based on https://github.com/dtolnay/proc-macro-hack/blob/0.5.19/src/iter.rs
 
-use proc_macro::{token_stream, Delimiter, TokenStream, TokenTree};
+use proc_macro::{Delimiter, TokenStream, TokenTree, token_stream};
 
 pub(crate) struct TokenIter {
     stack: Vec<token_stream::IntoIter>,

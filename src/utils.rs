@@ -4,7 +4,7 @@ use std::iter::FromIterator;
 
 use proc_macro::{Delimiter, Group, Ident, Punct, Spacing, Span, TokenStream, TokenTree};
 
-use crate::{iter::TokenIter, Result};
+use crate::{Result, iter::TokenIter};
 
 pub(crate) fn tt_span(tt: Option<&TokenTree>) -> Span {
     tt.map_or_else(Span::call_site, TokenTree::span)

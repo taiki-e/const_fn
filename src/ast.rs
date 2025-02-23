@@ -2,7 +2,7 @@
 
 use proc_macro::{Delimiter, Ident, Literal, Span, TokenStream, TokenTree};
 
-use crate::{iter::TokenIter, to_tokens::ToTokens, utils::tt_span, Result};
+use crate::{Result, iter::TokenIter, to_tokens::ToTokens, utils::tt_span};
 
 pub(crate) struct Func {
     attrs: Vec<Attribute>,
