@@ -25,25 +25,25 @@ use const_fn::const_fn;
 
 // function is `const` on specified version and later compiler (including beta, nightly, and dev build)
 #[const_fn("1.36")]
-pub const fn version() {
+const fn version() {
     /* ... */
 }
 
 // function is `const` on nightly compiler (including dev build)
 #[const_fn(nightly)]
-pub const fn nightly() {
+const fn nightly() {
     /* ... */
 }
 
 // function is `const` if `cfg(...)` is true
 #[const_fn(cfg(...))]
-pub const fn cfg() {
+const fn cfg() {
     /* ... */
 }
 
 // function is `const` if `cfg(feature = "...")` is true
 #[const_fn(feature = "...")]
-pub const fn feature() {
+const fn feature() {
     /* ... */
 }
 ```
@@ -57,7 +57,7 @@ Therefore, you can use `const_fn` as an optional dependency by combination with 
 ```rust
 // function is `const` if `cfg(feature = "...")` is true
 #[cfg_attr(feature = "...", const_fn::const_fn)]
-pub fn optional() {
+fn optional() {
     /* ... */
 }
 ```

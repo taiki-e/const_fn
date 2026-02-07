@@ -11,29 +11,29 @@ use const_fn::const_fn;
 
 // function is `const` on specified version and later compiler (including beta, nightly, and dev build)
 #[const_fn("1.36")]
-pub const fn version() {
+const fn version() {
     /* ... */
 }
 
 // function is `const` on nightly compiler (including dev build)
 #[const_fn(nightly)]
-pub const fn nightly() {
+const fn nightly() {
     /* ... */
 }
 
 // function is `const` if `cfg(...)` is true
 # #[cfg(any(/* always false */))]
 #[const_fn(cfg(...))]
-# pub fn _cfg() { unimplemented!() }
-pub const fn cfg() {
+# fn _cfg() { unimplemented!() }
+const fn cfg() {
     /* ... */
 }
 
 // function is `const` if `cfg(feature = "...")` is true
 # #[cfg(any(/* always false */))]
 #[const_fn(feature = "...")]
-# pub fn _feature() { unimplemented!() }
-pub const fn feature() {
+# fn _feature() { unimplemented!() }
+const fn feature() {
     /* ... */
 }
 ```
@@ -48,8 +48,8 @@ Therefore, you can use `const_fn` as an optional dependency by combination with 
 // function is `const` if `cfg(feature = "...")` is true
 # #[cfg(any(/* always false */))]
 #[cfg_attr(feature = "...", const_fn::const_fn)]
-# pub fn _optional() { unimplemented!() }
-pub fn optional() {
+# fn _optional() { unimplemented!() }
+fn optional() {
     /* ... */
 }
 ```
@@ -74,10 +74,12 @@ be maintained manually)
 
 #![doc(test(
     no_crate_inject,
-    attr(
-        deny(warnings, rust_2018_idioms, single_use_lifetimes),
-        allow(dead_code, unused_variables)
-    )
+    attr(allow(
+        dead_code,
+        unused_variables,
+        clippy::undocumented_unsafe_blocks,
+        clippy::unused_trait_names,
+    ))
 ))]
 #![forbid(unsafe_code)]
 
