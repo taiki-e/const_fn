@@ -12,6 +12,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+- Enable [release immutability](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases).
+
 ## [0.4.11] - 2025-01-06
 
 - Improve Windows host support by workaround [rustc bug fixed in Rust 1.84](https://github.com/rust-lang/rust/pull/125205).
