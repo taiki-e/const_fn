@@ -1,6 +1,6 @@
 [package]
 name = "const_fn"
-version = "0.4.11" #publish:version
+version = "0.4.12" #publish:version
 edition = "2018"
 # NB: Sync with msrv badge in README.md
 rust-version = "1.31"

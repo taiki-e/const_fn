@@ -12,6 +12,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+## [0.4.12] - 2026-03-03
+
 - Enable [release immutability](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases).
 
 ## [0.4.11] - 2025-01-06
@@ -159,7 +161,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 Initial release
 
-[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.11...HEAD
+[Unreleased]: https://github.com/taiki-e/const_fn/compare/v0.4.12...HEAD
+[0.4.12]: https://github.com/taiki-e/const_fn/compare/v0.4.11...v0.4.12
 [0.4.11]: https://github.com/taiki-e/const_fn/compare/v0.4.10...v0.4.11
 [0.4.10]: https://github.com/taiki-e/const_fn/compare/v0.4.9...v0.4.10
 [0.4.9]: https://github.com/taiki-e/const_fn/compare/v0.4.8...v0.4.9
