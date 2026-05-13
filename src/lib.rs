@@ -99,7 +99,7 @@ use std::str::FromStr;
 
 use proc_macro::{Delimiter, TokenStream, TokenTree};
 
-use crate::{
+use self::{
     ast::LitStr,
     error::{Error, Result},
     iter::TokenIter,
