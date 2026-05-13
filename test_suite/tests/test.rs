@@ -170,7 +170,7 @@ pub mod version {
 
     #[test]
     fn test() {
-        assert!(const_min("variables") == "variables");
+        assert_eq!(const_min("variables"), "variables");
         assert_eq!(const_let("variables"), "variables");
         assert_eq!(const_vec_new::<u8>(), vec![]);
         assert_eq!(const_match(1), Some(1));
@@ -237,7 +237,7 @@ pub mod cfg {
 
     #[test]
     fn test() {
-        assert!(const_min("variables") == "variables");
+        assert_eq!(const_min("variables"), "variables");
         assert_eq!(const_let("variables"), "variables");
         assert_eq!(const_vec_new::<u8>(), vec![]);
         assert_eq!(const_match(1), Some(1));
